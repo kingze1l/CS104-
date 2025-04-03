@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Mobile Design</title>
+    <link rel="stylesheet" href="Style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </header>
+    
+    <!-- Fullscreen Clickable Menu -->
+    <div class="menu-overlay" onclick="closeMenu()"></div>
+    
+    <nav class="mobile-menu">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Missions</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="#">About NASA</a></li>
+        </ul>
+    </nav>
+    
+
+    <section class="hero">
+        <h1>Explore The Universe</h1>
+        <p>Join NASA in discovering the wonders of space.</p>
+        <button class="explore-btn">Learn More</button>
+    </section>
+
+    <section class="cards">
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200" alt="Mars Mission">
+            <h3>Mars Mission</h3>
+            <p>Discover NASA’s journey to Mars.</p>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200" alt="Black Holes">
+            <h3>Black Holes</h3>
+            <p>Learn about mysterious cosmic objects.</p>
+        </div>
+        <div class="card">
+            <img src="https://via.placeholder.com/300x200" alt="Astronauts">
+            <h3>Astronauts</h3>
+            <p>Meet the brave explorers of space.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 NASA | Space for Everyone</p>
+    </footer>
+
+    <script>
+function toggleMenu() {
+    document.querySelector(".mobile-menu").classList.toggle("menu-open");
+    document.querySelector(".menu-icon").classList.toggle("open");
+    document.querySelector(".menu-overlay").classList.toggle("show");
+}
+
+function closeMenu() {
+    document.querySelector(".mobile-menu").classList.remove("menu-open");
+    document.querySelector(".menu-icon").classList.remove("open");
+    document.querySelector(".menu-overlay").classList.remove("show");
+}
+
+    </script>
+
+</body>
+</html>
