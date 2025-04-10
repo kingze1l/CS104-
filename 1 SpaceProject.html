@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Mobile Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />
+    <link rel="stylesheet" href="Style.css">
+
+</head>
+<body>
+    <header class="navbar">
+        <!-- Hamburger Menu (on left) -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <!-- Logo in the center -->
+        <div class="logo">
+            <a href="1 SpaceProject.html">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
+            </a>
+        </div>
+
+        <div class="header-icons">
+            <!-- Search Icon -->
+            <span class="header-icon" onclick="alert('Search functionality coming soon!')">🔍</span>
+            <!-- Settings Icon -->
+            <span class="header-icon" onclick="alert('Settings functionality coming soon!')">⚙️</span>
+        </div>
+    </header>
+    
+    <!-- Fullscreen Clickable Menu -->
+    <div class="menu-overlay" onclick="closeMenu()"></div>
+    
+    <nav class="mobile-menu">
+        <ul>
+            <li><a href="1 SpaceProject.html">Home</a></li>
+            <li><a href="#">Missions</a></li>
+            <li><a href="#">Gallery</a></li>
+            <!-- Change the link to the Planet Details page -->
+            <li><a href="About.html">About Planets</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <section class="hero">
+            <h1>Explore The Universe</h1>
+            <p>Join NASA in discovering the wonders of space.</p>
+            <button class="explore-btn">Learn More</button>
+        </section>
+
+        <!-- Featured Content -->
+        <div style="padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h2 style="font-size: 1.4rem; font-weight: bold;">Featured Missions</h2>
+                <a href="#" style="color: #fff; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
+                    See All <span style="background-color: #ff3b30; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; margin-left: 5px;">3</span>
+                </a>
+            </div>
+        </div>
+
+        <section class="cards">
+            <div class="card">
+                <img src="/api/placeholder/300/200" alt="Mars Weather Service">
+                <h3>Nasa's Mars Weather Service</h3>
+                <p>Discover NASA's journey to Mars and the latest findings from the red planet exploration programs.</p>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/300/200" alt="Black Holes">
+                <h3>Black Holes</h3>
+                <p>Learn about these mysterious cosmic objects that fascinate astronomers and challenge our understanding of physics.</p>
+            </div>
+            <div class="card">
+                <img src="/api/placeholder/300/200" alt="Astronauts">
+                <h3>Astronauts</h3>
+                <p>Meet the brave explorers of space who push the boundaries of human achievement in the cosmos.</p>
+            </div>
+        </section>
+
+        <!-- Latest News Section -->
+        <div style="padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0 12px;">
+                <h2 style="font-size: 1.4rem; font-weight: bold;">Latest News</h2>
+                <a href="#" style="color: #fff; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
+                    See All <span style="background-color: #ff3b30; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; margin-left: 5px;">5</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Horizontal Scrolling News Cards -->
+        <div style="display: flex; overflow-x: auto; gap: 12px; padding: 0 20px 20px; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
+            <div style="min-width: 180px; height: 220px; border-radius: 8px; overflow: hidden; position: relative; flex-shrink: 0; background-color: #111;">
+                <img src="/api/placeholder/180/120" alt="News 1" style="width: 100%; height: 120px; object-fit: cover;">
+                <div style="padding: 10px;">
+                    <h3 style="font-size: 1rem; color: #fc3d21; margin-bottom: 5px;">Webb Discoveries</h3>
+                    <p style="font-size: 0.85rem; color: #ccc;">New findings from James Webb Space Telescope</p>
+                </div>
+            </div>
+            <div style="min-width: 180px; height: 220px; border-radius: 8px; overflow: hidden; position: relative; flex-shrink: 0; background-color: #111;">
+                <img src="/api/placeholder/180/120" alt="News 2" style="width: 100%; height: 120px; object-fit: cover;">
+                <div style="padding: 10px;">
+                    <h3 style="font-size: 1rem; color: #fc3d21; margin-bottom: 5px;">ISS Research</h3>
+                    <p style="font-size: 0.85rem; color: #ccc;">Latest experiments aboard the International Space Station</p>
+                </div>
+            </div>
+            <div style="min-width: 180px; height: 220px; border-radius: 8px; overflow: hidden; position: relative; flex-shrink: 0; background-color: #111;">
+                <img src="/api/placeholder/180/120" alt="News 3" style="width: 100%; height: 120px; object-fit: cover;">
+                <div style="padding: 10px;">
+                    <h3 style="font-size: 1rem; color: #fc3d21; margin-bottom: 5px;">Artemis Updates</h3>
+                    <p style="font-size: 0.85rem; color: #ccc;">Progress on NASA's return to the Moon</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <nav class="nav-tabs">
+        <a href="1 SpaceProject.html" class="tab active">
+            <div class="tab-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="#" class="tab">
+            <div class="tab-icon">📰</div>
+            <div>News</div>
+        </a>
+        <a href="#" class="tab">
+            <div class="tab-icon">🚀</div>
+            <div>NASA+</div>
+        </a>
+        <a href="2 About.html" class="tab">
+            <div class="tab-icon">🌍</div>
+            <div>About</div>
+        </a>
+        <a href="#" class="tab">
+            <div class="tab-icon">⭐</div>
+            <div>Featured</div>
+        </a>
+    </nav>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector(".mobile-menu").classList.toggle("menu-open");
+            document.querySelector(".menu-icon").classList.toggle("open");
+            document.querySelector(".menu-overlay").classList.toggle("show");
+        }
+
+        function closeMenu() {
+            document.querySelector(".mobile-menu").classList.remove("menu-open");
+            document.querySelector(".menu-icon").classList.remove("open");
+            document.querySelector(".menu-overlay").classList.remove("show");
+        }
+    </script>
+</body>
+</html>
