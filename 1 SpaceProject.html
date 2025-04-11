@@ -8,48 +8,7 @@
     <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />
     <link rel="stylesheet" href="Style.css">
 
-    <style>
-        #search-container {
-    position: absolute;
-    top: 60px; /* Adjust as needed depending on your navbar height */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 400px;
-    padding: 12px;
-    background-color: #111;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    z-index: 1000;
-    display: none;
-    transition: all 0.3s ease-in-out;
-}
-
-#search-container.show {
-    display: block;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
-    to { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-#search-input {
-    width: 100%;
-    padding: 10px 14px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    outline: none;
-    background-color: #222;
-    color: #fff;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-
-
-    </style>
+    
 </head>
 <body>
     <!-- Header -->
@@ -187,41 +146,9 @@
             <div>Featured</div>
         </a>
     </nav>
-    <!-- Still not working -->
+    <!-- Still not working lil bit -->
     <script src="dark-mode.js"></script>
-    <script>
-        function toggleMenu() {
-            document.querySelector(".mobile-menu").classList.toggle("menu-open");
-            document.querySelector(".menu-icon").classList.toggle("open");
-            document.querySelector(".menu-overlay").classList.toggle("show");
-        }
-
-        function closeMenu() {
-            document.querySelector(".mobile-menu").classList.remove("menu-open");
-            document.querySelector(".menu-icon").classList.remove("open");
-            document.querySelector(".menu-overlay").classList.remove("show");
-        }
-
-        function toggleSearch() {
-            const container = document.getElementById('search-container');
-            if (!container.classList.contains('show')) {
-                container.classList.add('show');
-            } else {
-                container.classList.remove('show');
-        }
-            document.getElementById('search-input').focus();
-        }
-
-        document.getElementById('search-input').addEventListener('input', function () {
-        const query = this.value.toLowerCase();
-        const cards = document.querySelectorAll('.cards .card, .hero, .horizontal-news-card');
-
-        cards.forEach(card => {
-            const text = card.textContent.toLowerCase();
-            card.style.display = text.includes(query) ? 'block' : 'none';
-        });
-});
-    
-    </script>
+    <script src="Script.js"></script>
+   
 </body>
 </html>
