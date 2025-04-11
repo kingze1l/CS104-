@@ -7,81 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Raleway:wght@300;600&display=swap" rel="stylesheet"/>
     <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />
 
-    <!-- must include every page -->  
+    
     <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="about.css">
 
-    <style>
-      /* Modal Styles */
-      .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.8);
-        z-index: 9999;
-        justify-content: center;
-        align-items: center;
-      }
-    
-      .modal-content {
-        background-color: #ffffff;
-        padding: 20px;
-        max-width: 80%;
-        max-height: 80%;
-        overflow: auto;
-        color: #333;
-        font-family: "Raleway", sans-serif;
-        position: relative;
-      }
-    
-      .close-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        font-size: 30px;
-        color: #000000;
-        cursor: pointer;
-        background: none;
-        border: none;
-      }
-    
-      .modal h2 {
-        font-size: 2rem;
-        font-weight: 600;
-        margin-bottom: 15px;
-        color: #2d2d2d;
-      }
-    
-      .modal p {
-        font-size: 1.2rem;
-        line-height: 1.5;
-        margin-bottom: 10px;
-      }
-    
-      /* Enhanced iframe Styles */
-      .modal iframe {
-        width: 100%;
-        height: 400px;
-        margin-top: 20px;
-        border: none;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border-radius: 12px;
-      }
-    
-      .modal iframe:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
-      }
-    
-      .modal iframe:active {
-        transform: scale(0.98);
-        box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.5);
-      }
-      
-    </style>
-    
+   
   </head>
   <body>
     <!-- Navigation Bar -->
@@ -160,87 +90,8 @@
         </a>
       </nav>
 
-    <script>
-        const apiKey = "COjts7snVqyUL9OD04ukQA==sHTQPO0uLGRS46bQ";
-        const planetNames = [
-          "Mercury",
-          "Venus",
-          "Earth",
-          "Mars",
-          "Jupiter",
-          "Saturn",
-          "Uranus",
-          "Neptune",
-        ];
+   
       
-        async function fetchPlanets() {
-          const url = `https://api.api-ninjas.com/v1/planets?name=`;
-          document.getElementById("result").innerHTML = `<p>Loading planets...</p>`;
-      
-          try {
-            const promises = planetNames.map((planetName) =>
-              fetch(url + planetName, { headers: { "X-Api-Key": apiKey } })
-                .then((response) => response.json())
-                .then((data) => data[0] || null)
-                .catch(() => null)
-            );
-      
-            const planets = await Promise.all(promises);
-            displayPlanets(planets);
-          } catch (error) {
-            console.error("Error fetching planet data", error);
-            document.getElementById(
-              "result"
-            ).innerHTML = `<p>Failed to load planet data.</p>`;
-          }
-        }
-      
-        function displayPlanets(planets) {
-          let output = planets
-            .map((planet) => {
-              if (!planet) return `<p>Error fetching planet data.</p>`;
-      
-              // Convert temperature from Kelvin to Celsius
-              const temperatureCelsius = (planet.temperature - 273.15).toFixed(2);
-      
-              return `<div class="card" onclick="openModal('${planet.name}', '${planet.mass}', '${planet.radius}', '${temperatureCelsius}', '${planet.period}', '${planet.semi_major_axis}', '${planet.distance_light_year}', '${planet.host_star_mass}', '${planet.host_star_temperature}')">
-                          <h3>${planet.name}</h3>
-                          <p><strong>Mass:</strong> ${planet.mass} Earth masses</p>
-                          <p><strong>Radius:</strong> ${planet.radius} Earth radii</p>
-                          <p><strong>Temperature:</strong> ${temperatureCelsius} °C</p>
-                          </div>`;
-            })
-            .join("");
-      
-          document.getElementById("result").innerHTML = output;
-        }
-      
-        function openModal(name, mass, radius, temperature, period, semi_major_axis, distance_light_year, host_star_mass, host_star_temperature) {
-          const modal = document.getElementById("planetModal");
-          const modalContent = document.getElementById("modalContent");
-      
-          modalContent.innerHTML = `
-            <h2>${name}</h2>
-            <p><strong>Mass:</strong> ${mass} Earth masses</p>
-            <p><strong>Radius:</strong> ${radius} Earth radii</p>
-            <p><strong>Temperature:</strong> ${temperature} K</p>
-            <p><strong>Orbital Period:</strong> ${period} Earth days</p>
-            <p><strong>Semi-Major Axis:</strong> ${semi_major_axis} AU</p>
-            <p><strong>Distance from Earth (light-years):</strong> ${distance_light_year} light-years</p>
-            <p><strong>Host Star Mass:</strong> ${host_star_mass} Solar masses</p>
-            <p><strong>Host Star Temperature:</strong> ${host_star_temperature} K</p>
-            <iframe src="https://eyes.nasa.gov/apps/solar-system/#/${name.toLowerCase()}?embed=true&logo=false" allowfullscreen></iframe>
-          `;
-          modal.style.display = "flex";
-        }
-      
-        function closeModal() {
-          const modal = document.getElementById("planetModal");
-          modal.style.display = "none";
-        }
-      
-        window.onload = fetchPlanets;
-      </script>
-      
+      <script src="about.js"></script>
   </body>
 </html>
