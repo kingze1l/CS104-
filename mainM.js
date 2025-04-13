@@ -158,28 +158,8 @@ function openNewsModal(modalId) {
     openModal(modalId);
 }
 
-// Add this function to your script.js file
-
-// Handle ISS location button click
-function viewISSLocation(event) {
-    // Prevent the click from bubbling up to the card
-    event.stopPropagation();
-    
-    // Here you would add actual ISS tracking logic
-    // For now, just show an alert message
-    alert('ISS tracking functionality coming soon!');
-    
-    // You could replace this with an actual tracking feature in the future
-    // For example, opening a map view with the ISS current location
-}
-
-// After loading the page, attach this handler to all ISS location buttons
-window.addEventListener('DOMContentLoaded', () => {
-    // The rest of your initialization code...
-    
-    // Add click handlers to ISS location buttons
-    const issButtons = document.querySelectorAll('.view-iss-btn, .view-iss-location');
-    issButtons.forEach(button => {
-        button.addEventListener('click', viewISSLocation);
-    });
-});
+/* 
+ * REMOVED the viewISSLocation function and the event listener that was
+ * attaching it to the ISS location buttons. 
+ * This allows the buttons to function normally as links.
+ */
