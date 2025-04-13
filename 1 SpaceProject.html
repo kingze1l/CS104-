@@ -7,8 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />
     <link rel="stylesheet" href="Style.css">
-
-    
+    <link rel="stylesheet" href="nasa-cards.css">
 </head>
 <body>
     <!-- Header -->
@@ -64,64 +63,314 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                 <h2 style="font-size: 1.4rem; font-weight: bold;">Featured Missions</h2>
                 <a href="#" style="color: #fff; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
-                    See All <span style="background-color: #ff3b30; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; margin-left: 5px;">3</span>
+                    See All <span style="background-color: #ff3b30; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; margin-left: 5px;">4</span>
                 </a>
             </div>
         </div>
 
-        <section class="cards">
-            <div class="card">
-                <img src="/api/placeholder/300/200" alt="Mars Weather Service">
+        <section class="cards" id="featured-missions">
+            <!-- Mars Weather Card -->
+            <div class="card" onclick="openModal('mars-modal')">
+                <img src="/api/placeholder/350/180" alt="Mars Weather Service" id="mars-image">
+                <div class="mission-tag">ACTIVE MISSION</div>
                 <h3>Nasa's Mars Weather Service</h3>
                 <p>Discover NASA's journey to Mars and the latest findings from the red planet exploration programs.</p>
             </div>
-            <div class="card">
-                <img src="/api/placeholder/300/200" alt="Black Holes">
+            
+            <!-- Black Holes Card -->
+            <div class="card" onclick="openModal('blackholes-modal')">
+                <img src="/api/placeholder/350/180" alt="Black Holes" id="blackholes-image">
+                <div class="mission-tag">RESEARCH</div>
                 <h3>Black Holes</h3>
                 <p>Learn about these mysterious cosmic objects that fascinate astronomers and challenge our understanding of physics.</p>
             </div>
-            <div class="card">
-                <img src="/api/placeholder/300/200" alt="Astronauts">
-                <h3>Astronauts</h3>
-                <p>Meet the brave explorers of space who push the boundaries of human achievement in the cosmos.</p>
+            
+            <!-- ISS Card -->
+            <div class="card" id="iss-card" onclick="openModal('iss-modal')">
+                <img src="/api/placeholder/350/180" alt="International Space Station" id="iss-image">
+                <div class="mission-tag">ORBITAL OUTPOST</div>
+                <h3>International Space Station</h3>
+                <p>Latest experiments aboard the International Space Station including studies on microgravity effects on human physiology and advanced materials production.</p>
+                <a href="#" class="view-iss-btn" onclick="alert('ISS tracking functionality coming soon!'); event.stopPropagation();">View Live ISS Location</a>
+            </div>
+            
+            <!-- Upcoming Launches Card -->
+            <div class="card" id="launches-card" onclick="openModal('launches-modal')">
+                <img id="launch-image" src="/api/placeholder/350/180" alt="Upcoming Launches">
+                <div class="card-badge" id="launch-countdown">T-22:14:33</div>
+                <div class="mission-tag">NEXT LAUNCH</div>
+                <h3 id="launch-title">USSF-44</h3>
+                <p id="launch-text">SpaceX mission launching from Kennedy Space Center. Stay updated on this and future missions.</p>
+                <div class="launch-date" id="launch-date">4/14/2025 at 10:30:00 AM</div>
             </div>
         </section>
 
-        <!-- Latest News Section -->
-        <div style="padding: 0 20px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0 12px;">
-                <h2 style="font-size: 1.4rem; font-weight: bold;">Latest News</h2>
-                <a href="#" style="color: #fff; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
-                    See All <span style="background-color: #ff3b30; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; margin-left: 5px;">5</span>
-                </a>
-            </div>
-        </div>
+       <!-- Latest News Section -->
+<div style="padding: 0 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0 12px;">
+        <h2 style="font-size: 1.4rem; font-weight: bold;">Latest News</h2>
+        <a href="#" style="color: #fff; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
+            See All <span style="background-color: #ff3b30; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; margin-left: 5px;">5</span>
+        </a>
+    </div>
+</div>
 
-        <!-- Horizontal Scrolling News Cards -->
-        <div style="display: flex; overflow-x: auto; gap: 12px; padding: 0 20px 20px; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
-            <div style="min-width: 180px; height: 220px; border-radius: 8px; overflow: hidden; position: relative; flex-shrink: 0; background-color: #111;">
-                <img src="/api/placeholder/180/120" alt="News 1" style="width: 100%; height: 120px; object-fit: cover;">
-                <div style="padding: 10px;">
-                    <h3 style="font-size: 1rem; color: #fc3d21; margin-bottom: 5px;">Webb Discoveries</h3>
-                    <p style="font-size: 0.85rem; color: #ccc;">New findings from James Webb Space Telescope</p>
-                </div>
+<!-- Horizontal Scrolling News Cards -->
+<div id="news-container">
+    <!-- News cards -->
+    <div class="horizontal-news-card" onclick="openNewsModal('news-0')">
+        <div class="news-source-tag">NASA</div>
+        <img src="/api/placeholder/180/120" alt="Webb Telescope">
+        <div class="card-content">
+            <h3>Webb Telescope Discoveries</h3>
+            <p>New findings from the James Webb Space Telescope reveal unprecedented details about distant galaxies.</p>
+            <div class="news-date">4/11/2025</div>
+        </div>
+    </div>
+    
+    <div class="horizontal-news-card" onclick="openNewsModal('news-1')">
+        <div class="news-source-tag">ISS</div>
+        <img src="/api/placeholder/180/120" alt="ISS Research">
+        <div class="card-content">
+            <h3>ISS Research Updates</h3>
+            <p>Latest experiments aboard the International Space Station studying effects of microgravity.</p>
+            <div class="news-date">4/9/2025</div>
+        </div>
+    </div>
+    
+    <div class="horizontal-news-card" onclick="openNewsModal('news-2')">
+        <div class="news-source-tag">NASA</div>
+        <img src="/api/placeholder/180/120" alt="Artemis Updates">
+        <div class="card-content">
+            <h3>Artemis Program Progress</h3>
+            <p>NASA's Artemis program continues preparations for returning humans to the lunar surface.</p>
+            <div class="news-date">4/7/2025</div>
+        </div>
+    </div>
+    
+    <div class="horizontal-news-card" onclick="openNewsModal('news-3')">
+        <div class="news-source-tag">SpaceX</div>
+        <img src="/api/placeholder/180/120" alt="SpaceX Starship">
+        <div class="card-content">
+            <h3>SpaceX Starship Development</h3>
+            <p>SpaceX continues testing of its Starship spacecraft intended for Mars missions.</p>
+            <div class="news-date">4/5/2025</div>
+        </div>
+    </div>
+    
+    <div class="horizontal-news-card" onclick="openNewsModal('news-4')">
+        <div class="news-source-tag">NASA</div>
+        <img src="/api/placeholder/180/120" alt="Mars Rover">
+        <div class="card-content">
+            <h3>Mars Rover Findings</h3>
+            <p>The Perseverance rover has collected samples that show potential signs of ancient microbial activity.</p>
+            <div class="news-date">4/3/2025</div>
+        </div>
+    </div>
+</div>
+    
+    <!-- Modal for Mars Weather Card -->
+    <div id="mars-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('mars-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">Mars Weather Service</h2>
+                <div class="mission-tag">ACTIVE MISSION</div>
             </div>
-            <div style="min-width: 180px; height: 220px; border-radius: 8px; overflow: hidden; position: relative; flex-shrink: 0; background-color: #111;">
-                <img src="/api/placeholder/180/120" alt="News 2" style="width: 100%; height: 120px; object-fit: cover;">
-                <div style="padding: 10px;">
-                    <h3 style="font-size: 1rem; color: #fc3d21; margin-bottom: 5px;">ISS Research</h3>
-                    <p style="font-size: 0.85rem; color: #ccc;">Latest experiments aboard the International Space Station</p>
-                </div>
+            <img class="modal-img" src="/api/placeholder/500/300" alt="Mars Surface" id="mars-modal-img">
+            <p style="margin-bottom: 15px;">NASA's Mars Weather Service provides daily weather reports from the Perseverance and Curiosity rovers on Mars. This information is critical for understanding Mars' climate and planning future missions.</p>
+            
+            <h3 style="color: #fc3d21; margin-top: 20px;">Latest Data</h3>
+            <div class="list-item">
+                <h4>Temperature</h4>
+                <p>High: -5°C | Low: -90°C</p>
             </div>
-            <div style="min-width: 180px; height: 220px; border-radius: 8px; overflow: hidden; position: relative; flex-shrink: 0; background-color: #111;">
-                <img src="/api/placeholder/180/120" alt="News 3" style="width: 100%; height: 120px; object-fit: cover;">
-                <div style="padding: 10px;">
-                    <h3 style="font-size: 1rem; color: #fc3d21; margin-bottom: 5px;">Artemis Updates</h3>
-                    <p style="font-size: 0.85rem; color: #ccc;">Progress on NASA's return to the Moon</p>
+            <div class="list-item">
+                <h4>Atmospheric Pressure</h4>
+                <p>730 Pa (0.7% of Earth's pressure)</p>
+            </div>
+            <div class="list-item">
+                <h4>Radiation Level</h4>
+                <p>Moderate (210 μGy/day)</p>
+            </div>
+            <div class="list-item">
+                <h4>Wind Speed</h4>
+                <p>5-20 m/s with dust devils observed</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for Black Holes Card -->
+    <div id="blackholes-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('blackholes-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">Black Holes</h2>
+                <div class="mission-tag">RESEARCH</div>
+            </div>
+            <img class="modal-img" src="/api/placeholder/500/300" alt="Black Hole Visualization" id="blackholes-modal-img">
+            <p style="margin-bottom: 15px;">Black holes are regions of spacetime where gravity is so strong that nothing—no particles or even electromagnetic radiation such as light—can escape from it. NASA studies these phenomena through various space telescopes.</p>
+            
+            <h3 style="color: #fc3d21; margin-top: 20px;">Types of Black Holes</h3>
+            <div class="list-item">
+                <h4>Stellar Black Holes</h4>
+                <p>Formed by the gravitational collapse of a star, these black holes have masses ranging from about 5 to several tens of solar masses.</p>
+            </div>
+            <div class="list-item">
+                <h4>Supermassive Black Holes</h4>
+                <p>Found at the center of most galaxies, including our Milky Way. They can have masses millions or billions times that of our sun.</p>
+            </div>
+            <div class="list-item">
+                <h4>Intermediate Black Holes</h4>
+                <p>Ranging from 100 to 100,000 solar masses, these are less common and still being studied.</p>
+            </div>
+            <div class="list-item">
+                <h4>Recent Discovery</h4>
+                <p>In 2019, the Event Horizon Telescope captured the first image of a black hole's shadow (M87*).</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for ISS Card -->
+    <div id="iss-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('iss-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">International Space Station</h2>
+                <div class="mission-tag">ORBITAL OUTPOST</div>
+            </div>
+            <img class="modal-img" src="/api/placeholder/500/300" alt="International Space Station" id="iss-modal-img">
+            <p style="margin-bottom: 15px;">The International Space Station (ISS) is a modular space station in low Earth orbit. It serves as a microgravity and space environment research laboratory where scientific research is conducted in astrobiology, astronomy, meteorology, physics, and other fields.</p>
+            
+            <h3 style="color: #fc3d21; margin-top: 20px;">Current Research</h3>
+            <div class="list-item">
+                <h4>Microgravity Effects</h4>
+                <p>Studies on how microgravity affects human physiology, including bone density, muscle atrophy, and cardiovascular health.</p>
+            </div>
+            <div class="list-item">
+                <h4>Advanced Materials</h4>
+                <p>Production of advanced materials impossible to create on Earth due to gravity interference.</p>
+            </div>
+            <div class="list-item">
+                <h4>Radiation Studies</h4>
+                <p>Measuring space radiation effects on living organisms to prepare for long-duration space missions.</p>
+            </div>
+            <div class="list-item">
+                <h4>Earth Observation</h4>
+                <p>Monitoring Earth's climate, natural disasters, and environmental changes from orbit.</p>
+            </div>
+
+            <a href="#" class="news-link" style="margin-top: 20px;" onclick="alert('ISS tracking functionality coming soon!');">View Live ISS Location</a>
+        </div>
+    </div>
+    
+    <!-- Modal for Upcoming Launches Card -->
+    <div id="launches-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('launches-modal')">&times;</span>
+            <div class="modal-header">
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">Upcoming Launches</h2>
+                <div class="mission-tag" id="modal-launch-countdown">T-22:14:33</div>
+            </div>
+            <img class="modal-img" src="/api/placeholder/500/300" alt="Rocket Launch" id="launches-modal-img">
+            <p style="margin-bottom: 15px;" id="launch-modal-description">Stay updated on upcoming rocket launches from SpaceX, NASA, and other space agencies. Track mission details and countdown timers for each launch.</p>
+            
+            <h3 style="color: #fc3d21; margin-top: 20px;">Launch Schedule</h3>
+            <div id="launches-list">
+                <div class="list-item">
+                    <h4>USSF-44</h4>
+                    <p>SpaceX Falcon Heavy launching from Kennedy Space Center</p>
+                    <div class="launch-date">T-22:14:33</div>
+                </div>
+                <div class="list-item">
+                    <h4>Starlink Group 5-12</h4>
+                    <p>SpaceX Falcon 9 launching from Cape Canaveral</p>
+                    <div class="launch-date">In 3 days</div>
+                </div>
+                <div class="list-item">
+                    <h4>Polaris Dawn</h4>
+                    <p>First commercial spacewalk mission</p>
+                    <div class="launch-date">In 6 days</div>
+                </div>
+                <div class="list-item">
+                    <h4>Crew-9</h4>
+                    <p>SpaceX Crew Dragon to the ISS</p>
+                    <div class="launch-date">In 2 weeks</div>
+                </div>
+                <div class="list-item">
+                    <h4>Artemis II</h4>
+                    <p>NASA's crewed lunar mission</p>
+                    <div class="launch-date">September 2025</div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+
+    <!-- News modals -->
+    <div id="news-0" class="modal">
+        <div class="modal-content news-modal-content">
+            <span class="close-modal" onclick="closeModal('news-0')">&times;</span>
+            <div class="modal-header">
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">Webb Telescope Discoveries</h2>
+                <div class="mission-tag">NASA</div>
+            </div>
+            <img src="/api/placeholder/500/300" alt="Webb Telescope Discoveries">
+            <p>New findings from the James Webb Space Telescope reveal unprecedented details about distant galaxies. The telescope's infrared capabilities have allowed astronomers to observe galaxy formation and stellar nurseries with greater clarity than ever before.</p>
+            <p style="font-size: 0.8rem; color: #999; margin-top: 15px;">Published: 4/11/2025</p>
+        </div>
+    </div>
+
+    <div id="news-1" class="modal">
+        <div class="modal-content news-modal-content">
+            <span class="close-modal" onclick="closeModal('news-1')">&times;</span>
+            <div class="modal-header">
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">ISS Research Updates</h2>
+                <div class="mission-tag">ISS</div>
+            </div>
+            <img src="/api/placeholder/500/300" alt="ISS Research">
+            <p>Latest experiments aboard the International Space Station studying effects of microgravity on plant growth, material properties, and human physiology are yielding promising results for future deep space missions and Earth applications.</p>
+            <p style="font-size: 0.8rem; color: #999; margin-top: 15px;">Published: 4/9/2025</p>
+        </div>
+    </div>
+
+    <div id="news-2" class="modal">
+        <div class="modal-content news-modal-content">
+            <span class="close-modal" onclick="closeModal('news-2')">&times;</span>
+            <div class="modal-header">
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">Artemis Program Progress</h2>
+                <div class="mission-tag">NASA</div>
+            </div>
+            <img src="/api/placeholder/500/300" alt="Artemis Program">
+            <p>NASA's Artemis program continues preparations for returning humans to the lunar surface. The latest tests of the SLS rocket and Orion spacecraft have been successful, keeping the program on track for upcoming missions.</p>
+            <p style="font-size: 0.8rem; color: #999; margin-top: 15px;">Published: 4/7/2025</p>
+        </div>
+    </div>
+
+    <div id="news-3" class="modal">
+        <div class="modal-content news-modal-content">
+            <span class="close-modal" onclick="closeModal('news-3')">&times;</span>
+            <div class="modal-header">
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">SpaceX Starship Development</h2>
+                <div class="mission-tag">SpaceX</div>
+            </div>
+            <img src="/api/placeholder/500/300" alt="SpaceX Starship">
+            <p>SpaceX continues testing of its Starship spacecraft intended for Mars missions. Recent high-altitude flights have demonstrated improved landing capabilities and thermal protection systems.</p>
+            <p style="font-size: 0.8rem; color: #999; margin-top: 15px;">Published: 4/5/2025</p>
+        </div>
+    </div>
+
+    <div id="news-4" class="modal">
+        <div class="modal-content news-modal-content">
+            <span class="close-modal" onclick="closeModal('news-4')">&times;</span>
+            <div class="modal-header">
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">Mars Rover Findings</h2>
+                <div class="mission-tag">NASA</div>
+            </div>
+            <img src="/api/placeholder/500/300" alt="Mars Rover">
+            <p>The Perseverance rover has collected samples that show potential signs of ancient microbial activity. These samples are providing valuable data about Mars' past climate and potential habitability.</p>
+            <p style="font-size: 0.8rem; color: #999; margin-top: 15px;">Published: 4/3/2025</p>
+        </div>
+    </div>
 
     <!--Footer-->
     <nav class="nav-tabs">
@@ -146,9 +395,10 @@
             <div>Featured</div>
         </a>
     </nav>
-    <!-- Still not working lil bit -->
+
     <script src="dark-mode.js"></script>
     <script src="Script.js"></script>
+    <script src="mainM.js"></script>
    
 </body>
 </html>
