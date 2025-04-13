@@ -91,7 +91,7 @@
                 <div class="mission-tag">ORBITAL OUTPOST</div>
                 <h3>International Space Station</h3>
                 <p>Latest experiments aboard the International Space Station including studies on microgravity effects on human physiology and advanced materials production.</p>
-                <a href="#" class="view-iss-btn" onclick="alert('ISS tracking functionality coming soon!'); event.stopPropagation();">View Live ISS Location</a>
+                <a href="iss-tracker.html" class="view-iss-btn"  event.stopPropagation();">View Live ISS Location</a>
             </div>
             
             <!-- Upcoming Launches Card -->
@@ -232,38 +232,38 @@
     </div>
     
     <!-- Modal for ISS Card -->
-    <div id="iss-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeModal('iss-modal')">&times;</span>
-            <div class="modal-header">
-                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">International Space Station</h2>
-                <div class="mission-tag">ORBITAL OUTPOST</div>
-            </div>
-            <img class="modal-img" src="/api/placeholder/500/300" alt="International Space Station" id="iss-modal-img">
-            <p style="margin-bottom: 15px;">The International Space Station (ISS) is a modular space station in low Earth orbit. It serves as a microgravity and space environment research laboratory where scientific research is conducted in astrobiology, astronomy, meteorology, physics, and other fields.</p>
-            
-            <h3 style="color: #fc3d21; margin-top: 20px;">Current Research</h3>
-            <div class="list-item">
-                <h4>Microgravity Effects</h4>
-                <p>Studies on how microgravity affects human physiology, including bone density, muscle atrophy, and cardiovascular health.</p>
-            </div>
-            <div class="list-item">
-                <h4>Advanced Materials</h4>
-                <p>Production of advanced materials impossible to create on Earth due to gravity interference.</p>
-            </div>
-            <div class="list-item">
-                <h4>Radiation Studies</h4>
-                <p>Measuring space radiation effects on living organisms to prepare for long-duration space missions.</p>
-            </div>
-            <div class="list-item">
-                <h4>Earth Observation</h4>
-                <p>Monitoring Earth's climate, natural disasters, and environmental changes from orbit.</p>
-            </div>
-
-            <a href="#" class="news-link" style="margin-top: 20px;" onclick="alert('ISS tracking functionality coming soon!');">View Live ISS Location</a>
+   
+<div id="iss-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('iss-modal')">&times;</span>
+        <div class="modal-header">
+            <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">International Space Station</h2>
+            <div class="mission-tag">ORBITAL OUTPOST</div>
         </div>
+        <img class="modal-img" src="/api/placeholder/500/300" alt="International Space Station" id="iss-modal-img">
+        <p style="margin-bottom: 15px;">The International Space Station (ISS) is a modular space station in low Earth orbit. It serves as a microgravity and space environment research laboratory where scientific research is conducted in astrobiology, astronomy, meteorology, physics, and other fields.</p>
+        
+        <h3 style="color: #fc3d21; margin-top: 20px;">Current Research</h3>
+        <div class="list-item">
+            <h4>Microgravity Effects</h4>
+            <p>Studies on how microgravity affects human physiology, including bone density, muscle atrophy, and cardiovascular health.</p>
+        </div>
+        <div class="list-item">
+            <h4>Advanced Materials</h4>
+            <p>Production of advanced materials impossible to create on Earth due to gravity interference.</p>
+        </div>
+        <div class="list-item">
+            <h4>Radiation Studies</h4>
+            <p>Measuring space radiation effects on living organisms to prepare for long-duration space missions.</p>
+        </div>
+        <div class="list-item">
+            <h4>Earth Observation</h4>
+            <p>Monitoring Earth's climate, natural disasters, and environmental changes from orbit.</p>
+        </div>
+
+        <a href="iss-tracker.html" class="view-iss-location">View Live ISS Location</a>
     </div>
-    
+</div>
     <!-- Modal for Upcoming Launches Card -->
     <div id="launches-modal" class="modal">
         <div class="modal-content">

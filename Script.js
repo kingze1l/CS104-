@@ -22,6 +22,126 @@ function updateLaunchCountdown(launchDate) {
     if (modalCountdownElement) modalCountdownElement.textContent = countdown;
 }
 
+// NASA Image API integration
+async function fetchNASAImages() {
+    // Define search queries for each category
+    const imageCategories = {
+        mars: {
+            search: 'mars surface curiosity perseverance',
+            cardImageId: 'mars-image',
+            modalImageId: 'mars-modal-img'
+        },
+        blackholes: {
+            search: 'black hole space',
+            cardImageId: 'blackholes-image',
+            modalImageId: 'blackholes-modal-img'
+        },
+        iss: {
+            search: 'international space station',
+            cardImageId: 'iss-image',
+            modalImageId: 'iss-modal-img'
+        },
+        launches: {
+            search: 'rocket launch spacex nasa',
+            cardImageId: 'launch-image',
+            modalImageId: 'launches-modal-img'
+        }
+    };
+    
+    const nasaApiKey = 'DEMO_KEY'; // Replace with your NASA API key for production
+    
+    // Fetch images for each category
+    for (const [category, data] of Object.entries(imageCategories)) {
+        try {
+            // First try NASA Image and Video Library API
+            const searchUrl = `https://images-api.nasa.gov/search?q=${encodeURIComponent(data.search)}&media_type=image`;
+            const response = await fetch(searchUrl);
+            
+            if (response.ok) {
+                const result = await response.json();
+                
+                if (result.collection.items && result.collection.items.length > 0) {
+                    // Get random image from the first 10 results (or fewer if less than 10 are available)
+                    const randomIndex = Math.floor(Math.random() * Math.min(10, result.collection.items.length));
+                    const item = result.collection.items[randomIndex];
+                    
+                    // The NASA image API returns a collection, and we need to get the actual image URL
+                    if (item.links && item.links.length > 0) {
+                        const imageUrl = item.links[0].href;
+                        
+                        // Update card image
+                        const cardImage = document.getElementById(data.cardImageId);
+                        if (cardImage) {
+                            cardImage.src = imageUrl;
+                            cardImage.onerror = () => {
+                                cardImage.src = '/api/placeholder/350/180';
+                            };
+                        }
+                        
+                        // Update modal image
+                        const modalImage = document.getElementById(data.modalImageId);
+                        if (modalImage) {
+                            modalImage.src = imageUrl;
+                            modalImage.onerror = () => {
+                                modalImage.src = '/api/placeholder/500/300';
+                            };
+                        }
+                    }
+                } else {
+                    // Fallback to APOD if no images found
+                    await fetchAPODFallback(data);
+                }
+            } else {
+                // Fallback to APOD if API request fails
+                await fetchAPODFallback(data);
+            }
+        } catch (error) {
+            console.error(`Error fetching ${category} images:`, error);
+            // Use fallback images if there's an error
+            const cardImage = document.getElementById(data.cardImageId);
+            const modalImage = document.getElementById(data.modalImageId);
+            
+            if (cardImage) cardImage.src = `/api/placeholder/350/180`;
+            if (modalImage) modalImage.src = `/api/placeholder/500/300`;
+        }
+    }
+}
+
+// Fallback to Astronomy Picture of the Day (APOD) API
+async function fetchAPODFallback(data) {
+    try {
+        const apodUrl = `https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=1`;
+        const apodResponse = await fetch(apodUrl);
+        
+        if (apodResponse.ok) {
+            const apodData = await apodResponse.json();
+            if (apodData.length > 0 && apodData[0].url) {
+                const imageUrl = apodData[0].url;
+                
+                // Update card image
+                const cardImage = document.getElementById(data.cardImageId);
+                if (cardImage) {
+                    cardImage.src = imageUrl;
+                    cardImage.onerror = () => {
+                        cardImage.src = '/api/placeholder/350/180';
+                    };
+                }
+                
+                // Update modal image
+                const modalImage = document.getElementById(data.modalImageId);
+                if (modalImage) {
+                    modalImage.src = imageUrl;
+                    modalImage.onerror = () => {
+                        modalImage.src = '/api/placeholder/500/300';
+                    };
+                }
+            }
+        }
+    } catch (error) {
+        console.error('APOD fallback failed:', error);
+    }
+}
+
 // Fetch latest news from NASA and Spaceflight News API
 async function fetchLatestNews() {
     const newsContainer = document.getElementById('news-container');
@@ -78,7 +198,7 @@ async function fetchLatestNews() {
         allNews.forEach((item, index) => {
             const formattedDate = item.date.toLocaleDateString();
             newsHtml += `
-                <div class="horizontal-news-card" onclick="openNewsModal('news-${index}')">
+                <div class="horizontal-news-card" onclick="window.open('${item.url}', '_blank')">
                     <div class="news-source-tag">${item.source}</div>
                     <img src="${item.image}" alt="${item.title}" onerror="this.src='https://via.placeholder.com/180x120'">
                     <div class="card-content">
@@ -276,3 +396,19 @@ function closeModal(modalId) {
 function openNewsModal(modalId) {
     openModal(modalId);
 }
+
+// Initialize the page when DOM is loaded
+window.addEventListener('DOMContentLoaded', () => {
+    // Ensure modals start hidden
+    const modals = document.getElementsByClassName('modal');
+    for (let i = 0; i < modals.length; i++) {
+        modals[i].style.display = 'none';
+    }
+    
+    // Fetch NASA images for Mars, Black Holes, and ISS sections
+    fetchNASAImages();
+    
+    // Fetch API data
+    fetchUpcomingLaunches();
+    fetchLatestNews();
+});

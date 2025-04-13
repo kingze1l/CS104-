@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ISS Live Tracker - NASA Mobile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="iss-tracker.css">
+    
+    <!-- Load Three.js directly from CDN with integrity check -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" 
+            integrity="sha512-dLxUelApnYxpLt6K2iomGngnHO83iUvZytA3YjDUCjT0HDOHKXnVYdf3hU4JjM8uEhxf9nD1/ey98U3t2vZ0qQ==" 
+            crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <!-- Back Button (on left) -->
+        <div class="back-button" onclick="window.history.back()">
+            <span>←</span>
+        </div>
+
+        <!-- Logo in the center -->
+        <div class="logo">
+            <a href="1 SpaceProject.html">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
+            </a>
+        </div>
+
+        <div class="header-icons">
+            <!-- Search Icon -->
+            <span class="header-icon" onclick="toggleSearch()">🔍</span>
+            <!-- Settings Icon -->
+            <span class="header-icon" onclick="window.location.href='7 Settings.html'">⚙️</span>
+        </div>
+
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search missions, news..." style="width: 100%; padding: 8px; font-size: 1rem; border-radius: 5px;">
+        </div>
+    </header>
+    
+    <main>
+        <section class="iss-hero">
+            <h1>ISS Live Tracker</h1>
+            <p class="subtitle">Earth at 28,000 km/h</p>
+            <div class="iss-status">
+                <div class="status-item">
+                    <span class="status-label">Current Status:</span>
+                    <span class="status-value" id="iss-operational-status">Operational</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Current Crew:</span>
+                    <span class="status-value" id="iss-crew-count">7 Astronauts</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Orbit:</span>
+                    <span class="status-value" id="iss-orbit">400 km Altitude</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ISS Tracker Display Options -->
+        <section class="display-options">
+            <div class="toggle-buttons">
+                <button class="display-toggle active" data-display="map">Map View</button>
+                <button class="display-toggle" data-display="globe">3D Globe</button>
+                <button class="display-toggle" data-display="stats">Live Data</button>
+            </div>
+        </section>
+
+        <!-- ISS Tracker Displays (different views) -->
+        <section class="tracker-displays">
+            <!-- Map View -->
+            <div class="display-panel active" id="map-display">
+                <div class="map-container">
+                    <div id="iss-map">
+                        <!-- World map image as fallback -->
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Equirectangular_projection_SW.jpg/1200px-Equirectangular_projection_SW.jpg" alt="World Map" class="world-map">
+                        
+                        <!-- ISS marker that will be positioned by JavaScript -->
+                        <div id="iss-marker" class="iss-marker">
+                            <div class="iss-dot"></div>
+                            <div class="iss-pulse"></div>
+                        </div>
+                        
+                        <!-- Path trace will be added by JavaScript -->
+                        <div id="iss-path"></div>
+                    </div>
+                    <div class="map-overlay">
+                        <div class="coordinates">
+                            <div>Latitude: <span id="iss-lat">0.00</span>°</div>
+                            <div>Longitude: <span id="iss-lng">0.00</span>°</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Globe View -->
+            <div class="display-panel" id="globe-display">
+                <div class="globe-container">
+                    <div id="iss-globe">
+                        <canvas id="globe-canvas"></canvas>
+                    </div>
+                    <div class="globe-overlay">
+                        <div class="coordinates">
+                            <div>Latitude: <span id="globe-iss-lat">0.00</span>°</div>
+                            <div>Longitude: <span id="globe-iss-lng">0.00</span>°</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Data View -->
+            <div class="display-panel" id="stats-display">
+                <div class="stats-container">
+                    <div class="stats-header">
+                        <h2>Real-Time ISS Telemetry</h2>
+                        <div class="telemetry-time" id="telemetry-time">Last Updated: --:--:--</div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-title">Position</div>
+                            <div class="stat-value" id="stat-position">
+                                <div>Lat: <span id="stat-lat">0.00</span>°</div>
+                                <div>Lng: <span id="stat-lng">0.00</span>°</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-title">Altitude</div>
+                            <div class="stat-value" id="stat-altitude">408 km</div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-title">Velocity</div>
+                            <div class="stat-value" id="stat-velocity">27,600 km/h</div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-title">Solar Arrays</div>
+                            <div class="stat-value" id="stat-solar">Generating 75 kW</div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-title">Orbit Number</div>
+                            <div class="stat-value" id="stat-orbit">138,412</div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-title">Visibility</div>
+                            <div class="stat-value" id="stat-visibility">Day / Night</div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-title">Current Location</div>
+                            <div class="stat-value" id="stat-location">Over Pacific Ocean</div>
+                        </div>
+                        
+                        <div class="stat-box">
+                            <div class="stat-title">Next Pass</div>
+                            <div class="stat-value" id="stat-next-pass">Calculate for your location</div>
+                        </div>
+                    </div>
+
+                    <div class="current-mission">
+                        <h3>Current Mission Activities</h3>
+                        <div class="mission-log" id="mission-log">
+                            <div class="log-entry">
+                                <div class="log-time">09:45 UTC</div>
+                                <div class="log-activity">Crew conducting microgravity experiments in the Columbus Module</div>
+                            </div>
+                            <div class="log-entry">
+                                <div class="log-time">08:30 UTC</div>
+                                <div class="log-activity">Maintenance on the life support systems</div>
+                            </div>
+                            <div class="log-entry">
+                                <div class="log-time">07:15 UTC</div>
+                                <div class="log-activity">EVA preparations for upcoming spacewalk</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ISS Information Sections -->
+        <section class="iss-info-cards">
+            <h2 class="section-title">About the International Space Station</h2>
+            
+            <div class="cards">
+                <div class="card">
+                    <img src="https://www.nasa.gov/wp-content/uploads/2023/05/iss-blowout-updated-view-2023-300.png" alt="ISS Structure" id="iss-structure-img">
+                    <div class="mission-tag">STRUCTURE & MODULES</div>
+                    <h3>ISS Structure</h3>
+                    <p>The ISS consists of 16 pressurized modules including science labs, living quarters, and docking ports. It's approximately the size of a football field.</p>
+                </div>
+                
+                <div class="card">
+                    <img src="https://i.redd.it/b1hwr5exlsra1.jpg" alt="ISS Crew" id="iss-crew-img">
+                    <div class="mission-tag">EXPEDITION CREW</div>
+                    <h3>Current Crew</h3>
+                    <p>The ISS is typically home to 7 crew members from different space agencies working on hundreds of experiments in the unique microgravity environment.</p>
+                </div>
+                
+                <div class="card">
+                    <img src="https://cdn.mos.cms.futurecdn.net/PZACA5uQB9wXYYXUmWtXQa.jpg" alt="ISS Facts" id="iss-facts-img">
+                    <div class="mission-tag">FACTS & FIGURES</div>
+                    <h3>ISS By The Numbers</h3>
+                    <p>The space station weighs over 420,000 kg, has more than an acre of solar panels, and completes 16 orbits of Earth every day.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <nav class="nav-tabs">
+        <a href="1 SpaceProject.html" class="tab">
+            <div class="tab-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="#" class="tab">
+            <div class="tab-icon">📰</div>
+            <div>News</div>
+        </a>
+        <a href="#" class="tab">
+            <div class="tab-icon">🚀</div>
+            <div>NASA+</div>
+        </a>
+        <a href="2 About.html" class="tab">
+            <div class="tab-icon">🌍</div>
+            <div>About</div>
+        </a>
+        <a href="#" class="tab active">
+            <div class="tab-icon">⭐</div>
+            <div>Featured</div>
+        </a>
+    </nav>
+
+    <!-- Load other scripts AFTER Three.js is loaded -->
+    <script src="Script.js"></script>
+    <script src="mainM.js"></script>
+    
+    <!-- Load ISS tracker script last -->
+    <script src="iss-tracker.js"></script>
+</body>
+</html>

@@ -796,3 +796,45 @@ main {
 #iss-card p {
     margin-bottom: 5px;
 }
+
+/* Add this to your existing CSS file */
+
+/* ISS Live Location Button Styling */
+.view-iss-location {
+    background-color: #fc3d21;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+    margin: 15px 0;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
+}
+
+.view-iss-location:hover {
+    background-color: #e83819;
+}
+
+/* Update the styling for the news-link class to maintain consistency */
+.news-link, .modal-content .news-link {
+    display: inline-block;
+    background-color: #fc3d21;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 15px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.news-link:hover, .modal-content .news-link:hover {
+    background-color: #e83819;
+}
