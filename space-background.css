@@ -1,29 +1,22 @@
-/* Starfield background */
 .starfield-background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Behind all content (navbar: z-index 10, modals: z-index 100) */
-    background: #000000; /* Solid black for deep space */
+    z-index: -1;
+    background: #000000;
     display: block;
 }
-
-/* Ensure main content stays above */
 body {
     position: relative;
-    z-index: 1; /* Keep navbar, cards, modals, etc. above background */
+    z-index: 1;
 }
-
-/* Smooth transitions for canvas resizing */
 .starfield-background {
     transition: width 0.3s ease, height 0.3s ease;
 }
-
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .starfield-background {
-        transform: scale(1); /* Ensure no distortion on mobile */
+        transform: scale(1);
     }
 }

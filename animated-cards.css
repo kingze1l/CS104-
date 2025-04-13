@@ -1,0 +1,184 @@
+/* Enhanced iPhone-like animation styles */
+
+/* Base state for all elements - more refined initial state */
+.hero,
+.card,
+.horizontal-news-card,
+.nav-tabs {
+    opacity: 0;
+    transform: scale(0.95) translateY(15px);
+    /* iOS uses very specific easing curves for natural motion */
+    transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1), 
+                transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Specific timing for different element groups */
+.hero.animate {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.2s;
+}
+
+/* Featured cards animation (staggered) - more iOS-like subtle timing */
+.card.animate:nth-child(1) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.25s;
+}
+
+.card.animate:nth-child(2) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.32s;
+}
+
+.card.animate:nth-child(3) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.39s;
+}
+
+.card.animate:nth-child(4) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.46s;
+}
+
+/* News cards animation - tighter timing with iOS-like staggering */
+.horizontal-news-card.animate:nth-child(1) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.53s;
+}
+
+.horizontal-news-card.animate:nth-child(2) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.58s;
+}
+
+.horizontal-news-card.animate:nth-child(3) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.63s;
+}
+
+.horizontal-news-card.animate:nth-child(4) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.68s;
+}
+
+.horizontal-news-card.animate:nth-child(5) {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition-delay: 0.73s;
+}
+
+/* Navigation tabs animation - authentic iOS dock animation */
+.nav-tabs {
+    transform: translateY(60px);
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.215, 0.61, 0.355, 1), 
+                transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    will-change: transform, opacity;
+}
+
+.nav-tabs.animate {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.8s;
+}
+
+/* Initial logo animation - Apple-like spring effect */
+.logo {
+    opacity: 0;
+    transform: scale(0.8);
+    filter: blur(5px);
+    transition: opacity 0.4s ease-out, 
+                transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                filter 0.4s ease-out;
+    will-change: transform, opacity, filter;
+}
+
+.logo.animate {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+    transition-delay: 0.1s;
+}
+
+/* Navbar animation - iOS status bar style */
+.navbar {
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: opacity 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), 
+                transform 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+    will-change: transform, opacity;
+}
+
+.navbar.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Section titles animation - iOS-like text appearance */
+h2 {
+    opacity: 0;
+    transform: translateX(-10px);
+    filter: blur(2px);
+    transition: opacity 0.35s cubic-bezier(0.215, 0.61, 0.355, 1), 
+                transform 0.35s cubic-bezier(0.215, 0.61, 0.355, 1),
+                filter 0.35s cubic-bezier(0.215, 0.61, 0.355, 1);
+    will-change: transform, opacity, filter;
+}
+
+h2.animate {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition-delay: 0.25s;
+}
+
+/* "See All" links animation - subtle opposing movement */
+h2 + a {
+    opacity: 0;
+    transform: translateX(10px);
+    filter: blur(2px);
+    transition: opacity 0.35s cubic-bezier(0.215, 0.61, 0.355, 1), 
+                transform 0.35s cubic-bezier(0.215, 0.61, 0.355, 1),
+                filter 0.35s cubic-bezier(0.215, 0.61, 0.355, 1);
+    will-change: transform, opacity, filter;
+}
+
+h2 + a.animate {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition-delay: 0.28s;
+}
+
+/* Add iOS-like subtle parallax and 3D effects */
+.card, .horizontal-news-card {
+    transform-style: preserve-3d;
+    transform: perspective(800px) scale(0.95) translateY(15px);
+}
+
+.card.animate, .horizontal-news-card.animate {
+    transform: perspective(800px) scale(1) translateY(0) rotateX(0);
+}
+
+/* Add subtle shadow transitions for depth */
+.card, .horizontal-news-card {
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    transition: box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+                opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+                transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card.animate, .horizontal-news-card.animate {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
