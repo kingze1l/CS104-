@@ -164,6 +164,7 @@ body {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    /* padding-bottom: 90px; */
 }
 
 .card {
