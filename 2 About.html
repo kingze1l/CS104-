@@ -5,38 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Planet Explorer</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Raleway:wght@300;600&display=swap" rel="stylesheet"/>
-    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />
-
-    
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />  
     <link rel="stylesheet" href="Style.css">
     <link rel="stylesheet" href="about.css">
 
-   
   </head>
   <body>
     <!-- Navigation Bar -->
     <header class="navbar">
-      <!-- Hamburger Menu (on left) -->
       <div class="menu-icon" onclick="toggleMenu()">
-          <div class="bar"></div>
-          <div class="bar"></div>
-          <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
       </div>
-
-      <!-- Logo in the center -->
       <div class="logo">
-          <a href="1 SpaceProject.html">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
-          </a>
+        <a href="1 SpaceProject.html">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
+        </a>
       </div>
-
       <div class="header-icons">
-          <!-- Search Icon -->
-          <span class="header-icon" onclick="alert('Search functionality coming soon!')">🔍</span>
-          <!-- Settings Icon -->
-          <span class="header-icon" onclick="alert('Settings functionality coming soon!')">⚙️</span>
+        <span class="header-icon" onclick="toggleSearch()">🔍</span>
+        <span class="header-icon" onclick="window.location.href='7 Settings.html'">⚙️</span>
       </div>
-  </header>
+    </header>
 
     <!-- Mobile Menu -->
     <nav class="mobile-menu" id="mobileMenu">
@@ -56,8 +47,13 @@
       <p>Discover fascinating details about the planets</p>
     </section>
 
+    <!-- Search Bar -->
+    <section class="search-section" id="searchSection">
+      <input type="text" id="planetSearch" placeholder="Search for a planet..." onkeyup="filterPlanets()">
+    </section>
+
     <!-- Planet Cards -->
-    <section class="cards" id="result">Loading...</section>
+    <section class="planet-cards" id="result"><div class="spinner"></div></section>
 
     <!-- Modal for Planet Details -->
     <div id="planetModal" class="modal">
@@ -88,10 +84,8 @@
             <div class="tab-icon">⭐</div>
             <div>Featured</div>
         </a>
-      </nav>
+    </nav>
 
-   
-      
-      <script src="about.js"></script>
+    <script src="about.js"></script>
   </body>
 </html>
