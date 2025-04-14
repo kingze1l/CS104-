@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Mobile Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Additional styles for enhanced cards */
+        .card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #fc3d21;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .card {
+            position: relative;
+        }
+        
+        .astronaut-count {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid #fc3d21;
+        }
+        
+        .launch-date {
+            font-size: 0.8rem;
+            background-color: rgba(252, 61, 33, 0.8);
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        
+        .mission-tag {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fc3d21;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        
+        .loading-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 180px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left: 4px solid #fc3d21;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar">
+        <!-- Hamburger Menu (on left) -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <!-- Logo in the center -->
+        <div class="logo">
+            <a href="1 SpaceProject.html">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
+            </a>
+        </div>
+
+        <div class="header-icons">
+            <!-- Search Icon -->
+            <span class="header-icon" onclick="toggleSearch()">🔍</span>
+            <!-- Settings Icon -->
+            <span class="header-icon" onclick="window.location.href='7 Settings.html'">⚙️</span>
+        </div>
+
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search missions, news..." style="width: 100%; padding: 8px; font-size: 1rem; border-radius: 5px;">
+        </div>
+    </header>
+    
+    <!-- Fullscreen Clickable Menu -->
+    <div class="menu-overlay" onclick="closeMenu()"></div>
+    
+    <nav class="mobile-menu">
+        <ul>
+            <li><a href="1 SpaceProject.html">Home</a></li>
+            <li><a href="#">Missions</a></li>
+            <li><a href="#">Gallery</a></li>
+            <!-- Change the link to the Planet Details page -->
+            <li><a href="2 About.html">About Planets</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <section class="hero">
+            <h1>Explore The Universe</h1>
+            <p>Join NASA in discovering the wonders of space.</p>
+            <button class="explore-btn">Learn More</button>
+        </section>
+
+        <!-- Featured Content -->
+        <div style="padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h2 style="font-size: 1.4rem; font-weight: bold;">Featured Missions</h2>
+                <a href="#" style="color: #fff; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
+                    See All <span style="background-color: #ff3b30; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; margin-left: 5px;">4</span>
+                </a>
+            </div>
+        </div>
+
+        <section class="cards" id="featured-missions">
+            <!-- Mars Weather Card -->
+            <div class="card">
+                <img src="https://mars.nasa.gov/system/resources/detail_files/25641_PIA24546-web.jpg" alt="Mars Weather Service">
+                <div class="mission-tag">ACTIVE MISSION</div>
+                <h3>Nasa's Mars Weather Service</h3>
+                <p>Discover NASA's journey to Mars and the latest findings from the red planet exploration programs.</p>
+            </div>
+            
+            <!-- Black Holes Card -->
+            <div class="card">
+                <img src="https://www.nasa.gov/wp-content/uploads/2023/03/blackhole-visualization-eht-1041140.jpg" alt="Black Holes">
+                <div class="mission-tag">RESEARCH</div>
+                <h3>Black Holes</h3>
+                <p>Learn about these mysterious cosmic objects that fascinate astronomers and challenge our understanding of physics.</p>
+            </div>
+            
+            <!-- Astronauts Card (will update with API data) -->
+            <div class="card" id="astronauts-card">
+                <div class="loading-container" id="astronauts-loading">
+                    <div class="loading-spinner"></div>
+                </div>
+                <div id="astronauts-content" class="hidden">
+                    <img id="astronauts-image" src="https://www.nasa.gov/wp-content/uploads/2023/02/ksc-20230222-ph-rrc01-0068orig.jpg" alt="Astronauts">
+                    <div id="astronaut-count" class="astronaut-count">0</div>
+                    <div class="mission-tag">HUMANS IN SPACE</div>
+                    <h3>Astronauts</h3>
+                    <p id="astronauts-text">Meet the brave explorers of space who push the boundaries of human achievement in the cosmos.</p>
+                </div>
+            </div>
+            
+            <!-- Upcoming Launches Card (will update with API data) -->
+            <div class="card" id="launches-card">
+                <div class="loading-container" id="launches-loading">
+                    <div class="loading-spinner"></div>
+                </div>
+                <div id="launches-content" class="hidden">
+                    <img id="launch-image" src="https://www.nasa.gov/wp-content/uploads/2022/07/52125239233_5f6e97fa01_o.jpg" alt="Upcoming Launches">
+                    <div class="card-badge" id="launch-countdown">UPCOMING</div>
+                    <div class="mission-tag">NEXT LAUNCH</div>
+                    <h3 id="launch-title">Upcoming Launches</h3>
+                    <p id="launch-text">Stay updated on the next missions heading to space. Find out when and where the next launch will take place.</p>
+                    <div class="launch-date" id="launch-date">T-00:00:00</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Latest News Section -->
+        <div style="padding: 0 20px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 0 12px;">
+                <h2 style="font-size: 1.4rem; font-weight: bold;">Latest News</h2>
+                <a href="#" style="color: #fff; text-decoration: none; display: flex; align-items: center; font-size: 0.9rem;">
+                    See All <span style="background-color: #ff3b30; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; margin-left: 5px;">5</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Horizontal Scrolling News Cards -->
+        <div style="display: flex; overflow-x: auto; gap: 12px; padding: 0 20px 20px; -webkit-overflow-scrolling: touch; scrollbar-width: none;">
+            <div class="horizontal-news-card" style="min-width: 180px; height: 220px; border-radius: 8px; overflow: hidden; position: relative; flex-shrink: 0; background-color: #111;">
+                <img src="https://smd-cms.nasa.gov/wp-content/uploads/2023/07/pia24543-1041.jpg" alt="News 1" style="width: 100%; height: 120px; object-fit: cover;">
+                <div style="padding: 10px;">
+                    <h3 style="font-size: 1rem; color: #fc3d21; margin-bottom: 5px;">Webb Discoveries</h3>
+                    <p style="font-size: 0.85rem; color: #ccc;">New findings from James Webb Space Telescope</p>
+                </div>
+            </div>
+            <div class="horizontal-news-card" style="min-width: 180px; height: 220px; border-radius: 8px; overflow: hidden; position: relative; flex-shrink: 0; background-color: #111;">
+                <img src="https://www.nasa.gov/wp-content/uploads/2022/07/iss067e362221.jpg" alt="News 2" style="width: 100%; height: 120px; object-fit: cover;">
+                <div style="padding: 10px;">
+                    <h3 style="font-size: 1rem; color: #fc3d21; margin-bottom: 5px;">ISS Research</h3>
+                    <p style="font-size: 0.85rem; color: #ccc;">Latest experiments aboard the International Space Station</p>
+                </div>
+            </div>
+            <div class="horizontal-news-card" style="min-width: 180px; height: 220px; border-radius: 8px; overflow: hidden; position: relative; flex-shrink: 0; background-color: #111;">
+                <img src="https://www.nasa.gov/wp-content/uploads/2023/11/artemisi_washhero_1600x900.png" alt="News 3" style="width: 100%; height: 120px; object-fit: cover;">
+                <div style="padding: 10px;">
+                    <h3 style="font-size: 1rem; color: #fc3d21; margin-bottom: 5px;">Artemis Updates</h3>
+                    <p style="font-size: 0.85rem; color: #ccc;">Progress on NASA's return to the Moon</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!--Footer-->
+    <nav class="nav-tabs">
+        <a href="1 SpaceProject.html" class="tab active">
+            <div class="tab-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="#" class="tab">
+            <div class="tab-icon">📰</div>
+            <div>News</div>
+        </a>
+        <a href="#" class="tab">
+            <div class="tab-icon">🚀</div>
+            <div>NASA+</div>
+        </a>
+        <a href="2 About.html" class="tab">
+            <div class="tab-icon">🌍</div>
+            <div>About</div>
+        </a>
+        <a href="#" class="tab">
+            <div class="tab-icon">⭐</div>
+            <div>Featured</div>
+        </a>
+    </nav>
+
+    <script src="dark-mode.js"></script>
+    <script src="Script.js"></script>
+    <script>
+        // API functions for fetching astronaut and launch data
+        async function fetchAstronauts() {
+            try {
+                const response = await fetch('http://api.open-notify.org/astros.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Update the astronaut card with actual data
+                    document.getElementById('astronaut-count').textContent = data.number;
+                    
+                    let astronautNames = data.people.map(person => person.name).slice(0, 3);
+                    if (data.people.length > 3) {
+                        astronautNames = astronautNames.join(', ') + ` and ${data.people.length - 3} more`;
+                    } else {
+                        astronautNames = astronautNames.join(', ');
+                    }
+                    
+                    document.getElementById('astronauts-text').textContent = 
+                        `Currently ${data.number} astronauts in space including ${astronautNames}. Follow their missions and discoveries.`;
+                    
+                    // Show the content and hide loading
+                    document.getElementById('astronauts-loading').classList.add('hidden');
+                    document.getElementById('astronauts-content').classList.remove('hidden');
+                    
+                    return data;
+                } else {
+                    throw new Error('Failed to fetch astronaut data');
+                }
+            } catch (error) {
+                console.error('Error fetching astronaut data:', error);
+                // Show default content on error
+                document.getElementById('astronauts-loading').classList.add('hidden');
+                document.getElementById('astronauts-content').classList.remove('hidden');
+                document.getElementById('astronauts-text').textContent = 
+                    'Meet the brave explorers of space who push the boundaries of human achievement in the cosmos.';
+            }
+        }
+
+        async function fetchUpcomingLaunches() {
+            try {
+                const response = await fetch('https://api.spacexdata.com/v4/launches/upcoming');
+                if (response.ok) {
+                    const launches = await response.json();
+                    if (launches.length > 0) {
+                        const nextLaunch = launches[0];
+                        
+                        // Update the launch card with the next launch info
+                        document.getElementById('launch-title').textContent = nextLaunch.name;
+                        
+                        if (nextLaunch.details) {
+                            document.getElementById('launch-text').textContent = nextLaunch.details;
+                        } else {
+                            document.getElementById('launch-text').textContent = 
+                                `SpaceX mission launching from ${nextLaunch.launchpad || 'Kennedy Space Center'}. Stay updated on this and future missions.`;
+                        }
+                        
+                        // Set launch date
+                        const launchDate = new Date(nextLaunch.date_utc);
+                        document.getElementById('launch-date').textContent = 
+                            `${launchDate.toLocaleDateString()} at ${launchDate.toLocaleTimeString()}`;
+                        
+                        // Calculate and show countdown
+                        updateLaunchCountdown(launchDate);
+                        setInterval(() => updateLaunchCountdown(launchDate), 1000);
+                        
+                        // Show the content and hide loading
+                        document.getElementById('launches-loading').classList.add('hidden');
+                        document.getElementById('launches-content').classList.remove('hidden');
+                        
+                        return launches;
+                    }
+                } else {
+                    throw new Error('Failed to fetch launch data');
+                }
+            } catch (error) {
+                console.error('Error fetching launch data:', error);
+                // Show default content on error
+                document.getElementById('launches-loading').classList.add('hidden');
+                document.getElementById('launches-content').classList.remove('hidden');
+                document.getElementById('launch-text').textContent = 
+                    'Stay updated on the next missions heading to space. Find out when and where the next launch will take place.';
+                document.getElementById('launch-date').textContent = 'Coming Soon';
+            }
+        }
+
+        function updateLaunchCountdown(launchDate) {
+            const now = new Date();
+            const timeRemaining = launchDate - now;
+            
+            if (timeRemaining > 0) {
+                // Calculate days, hours, minutes, seconds
+                const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+                
+                // Format the countdown
+                let countdownText = 'T-';
+                if (days > 0) countdownText += `${days}d `;
+                countdownText += `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                document.getElementById('launch-countdown').textContent = countdownText;
+            } else {
+                document.getElementById('launch-countdown').textContent = 'LAUNCHING!';
+            }
+        }
+
+        // NASA APOD API for getting a daily image (alternative if we can't fetch from other APIs)
+        async function fetchNASAImage() {
+            try {
+                const nasaApiKey = 'DEMO_KEY';
+                const response = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // We could use this image for one of our cards if needed
+                    console.log('NASA APOD image URL:', data.url);
+                    
+                    return data;
+                }
+            } catch (error) {
+                console.error('Error fetching NASA image:', error);
+            }
+        }
+
+        // Initialize the page by loading data from APIs
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchAstronauts();
+            fetchUpcomingLaunches();
+            fetchNASAImage();
+        });
+    </script>
+</body>
+</html>
