@@ -120,7 +120,7 @@ body {
 
 /* Hero Section */
 .hero {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/600');
+    /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/600'); */
     background-size: cover;
     background-position: center;
     padding: 60px 20px;
@@ -798,7 +798,7 @@ main {
     margin-bottom: 5px;
 }
 
-/* Add this to your existing CSS file */
+
 
 /* ISS Live Location Button Styling */
 .view-iss-location {

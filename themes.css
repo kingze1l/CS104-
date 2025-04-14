@@ -1,0 +1,146 @@
+
+/* Default Dark Mode */
+:root {
+  --background-color: #000;
+  --text-color: #fff;
+  --card-background: #111;
+  --card-border: #444;
+  --accent-color: #fc3d21;
+  --secondary-text: #ccc;
+  --navbar-background: #000;
+  --navbar-border: #222;
+  --input-background: #222;
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --modal-background: #111;
+  --modal-text: #e0e0e0;
+}
+
+/* Light Mode */
+body.light-mode {
+  --background-color: #fff;
+  --text-color: #000;
+  --card-background: #f5f5f5;
+  --card-border: #ddd;
+  --accent-color: #fc3d21;
+  --secondary-text: #666;
+  --navbar-background: #fff;
+  --navbar-border: #ddd;
+  --input-background: #eee;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --modal-background: #fff;
+  --modal-text: #333;
+}
+
+/* Apply theme variables */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar {
+  background-color: var(--navbar-background);
+  border-bottom: 1px solid var(--navbar-border);
+}
+
+.card {
+  background-color: var(--card-background);
+  border: 1px solid var(--card-border);
+  color: var(--text-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.card h3 {
+  color: var(--accent-color);
+}
+
+.card p {
+  color: var(--secondary-text);
+}
+
+.hero {
+    color: var(--text-color);
+}
+
+.hero h1,
+.hero p {
+  color: var(--text-color);
+}
+
+.nav-tabs {
+  background-color: var(--card-background);
+  border-top: 1px solid var(--navbar-border);
+}
+
+.tab {
+  color: var(--secondary-text);
+}
+
+.tab:hover,
+.tab.active {
+  color: var(--text-color);
+}
+
+#search-container,
+.search-section {
+  background-color: var(--card-background);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+#search-input,
+.search-section input {
+  background-color: var(--input-background);
+  color: var(--text-color);
+}
+
+#search-input::placeholder,
+.search-section input::placeholder {
+  color: var(--secondary-text);
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+.modal-content {
+  background-color: var(--modal-background);
+  color: var(--modal-text);
+}
+
+.modal h2 {
+  color: var(--accent-color);
+}
+
+.modal p {
+  color: var(--modal-text);
+}
+
+.settings-header h1,
+.settings-section h2,
+.setting-item {
+  color: var(--text-color);
+}
+
+.settings-section h2 {
+  border-bottom: 1px solid var(--navbar-border);
+}
+
+.setting-item {
+  border-bottom: 1px solid var(--navbar-border);
+}
+
+.back-link {
+  color: var(--accent-color);
+}
+
+/* Ensure hover effects remain consistent */
+.explore-btn,
+.more-info-btn {
+  background-color: var(--accent-color);
+  color: #fff;
+}
+
+.explore-btn:hover,
+.more-info-btn:hover {
+  background-color: #e2361d;
+}

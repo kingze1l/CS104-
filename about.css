@@ -14,7 +14,7 @@
   padding: 16px;
   margin: 12px;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 20px rgba(252, 61, 33, 0.3); /* Warm ambient glow */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -238,3 +238,33 @@
   outline: none;
   box-shadow: none;
 }
+
+
+/* :root {
+  --bg: #111;
+  --text: #fff;
+  --accent: #fc3d21;
+}
+
+body.light-theme {
+  --bg: #f5f5f5;
+  --text: #111;
+  --accent: #e2361d;
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-switch {
+  position: absolute;
+  top: 80px;
+  right: 20px;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  cursor: pointer;
+} */

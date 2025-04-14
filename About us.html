@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us</title>
+  <link rel="stylesheet" href="Style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="themes.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <!-- Hamburger Menu (on left) -->
+    <div class="menu-icon" onclick="toggleMenu()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <!-- Logo in the center -->
+    <div class="logo">
+        <a href="1 SpaceProject.html">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
+        </a>
+    </div>
+
+    <div class="header-icons">
+        <!-- Search Icon -->
+        <span class="header-icon" onclick="toggleSearch()">🔍</span>
+        <!-- Settings Icon -->
+        <span class="header-icon" onclick="window.location.href='7 Settings.html'">⚙️</span>
+    </div>
+
+    <!-- <div id="search-container">
+        <input type="text" id="search-input" placeholder="Search missions, news..." style="width: 100%; padding: 8px; font-size: 1rem; border-radius: 5px;">
+    </div> -->
+</header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>About Us</h1>
+    <p>Discover the passion and mission that drive us forward.</p>
+  </section>
+
+  <!-- About Content -->
+  <main>
+    <section class="cards">
+      <div class="card">
+        <img src="/api/placeholder/400/200?team" alt="Our Team" />
+        <h3>Our Team</h3>
+        <p>We're a group of passionate developers, designers, and thinkers who love building cool and useful things for people to enjoy and explore.</p>
+      </div>
+      <div class="card">
+        <img src="/api/placeholder/400/200?mission" alt="Our Mission" />
+        <h3>Our Mission</h3>
+        <p>We aim to bring cutting-edge digital experiences to everyone — through accessible design, innovative thinking, and a strong sense of purpose.</p>
+      </div>
+      <div class="card">
+        <img src="/api/placeholder/400/200?future" alt="Our Vision" />
+        <h3>Our Vision</h3>
+        <p>We see a world where technology empowers creativity and connection. We're here to help make that future real — one project at a time.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Bottom Nav -->
+  <nav class="nav-tabs">
+    <a href="1 SpaceProject.html" class="tab">
+      <div class="tab-icon">🏠</div>
+      <span>Home</span>
+    </a>
+    <a href="about.html" class="tab">
+      <div class="tab-icon">ℹ️</div>
+      <span>About</span>
+    </a>
+    <a href="contact.html" class="tab">
+      <div class="tab-icon">📞</div>
+      <span>Contact</span>
+    </a>
+  </nav>
+  <script src="DarkMode.js"></script>
+</body>
+</html>

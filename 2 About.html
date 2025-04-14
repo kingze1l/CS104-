@@ -8,26 +8,37 @@
     <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />  
     <link rel="stylesheet" href="Style.css">
     <link rel="stylesheet" href="about.css">
+    <link rel="stylesheet" href="themes.css">
 
   </head>
   <body>
     <!-- Navigation Bar -->
     <header class="navbar">
+      <!-- Hamburger Menu (on left) -->
       <div class="menu-icon" onclick="toggleMenu()">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
       </div>
+
+      <!-- Logo in the center -->
       <div class="logo">
-        <a href="1 SpaceProject.html">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
-        </a>
+          <a href="1 SpaceProject.html">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" alt="NASA Logo">
+          </a>
       </div>
+
       <div class="header-icons">
-        <span class="header-icon" onclick="toggleSearch()">🔍</span>
-        <span class="header-icon" onclick="window.location.href='7 Settings.html'">⚙️</span>
+          <!-- Search Icon -->
+          <span class="header-icon" onclick="toggleSearch()">🔍</span>
+          <!-- Settings Icon -->
+          <span class="header-icon" onclick="window.location.href='7 Settings.html'">⚙️</span>
       </div>
-    </header>
+
+      <div id="search-container">
+          <input type="text" id="search-input" placeholder="Search missions, news..." style="width: 100%; padding: 8px; font-size: 1rem; border-radius: 5px;">
+      </div>
+  </header>
 
     <!-- Mobile Menu -->
     <nav class="mobile-menu" id="mobileMenu">
@@ -87,5 +98,6 @@
     </nav>
 
     <script src="about.js"></script>
+    <script src="DarkMode.js"></script>
   </body>
 </html>
