@@ -1,13 +1,16 @@
 .starfield-background {
+    background-color: var(--canvas-background);
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: #000000;
+    background: hsl(0, 0%, 0%);
     display: block;
+    /* filter: invert(1); */
 }
+
 body {
     position: relative;
     z-index: 1;
@@ -20,3 +23,7 @@ body {
         transform: scale(1);
     }
 }
+
+body.light-mode .starfield-background {
+    filter: invert(1);
+  }
