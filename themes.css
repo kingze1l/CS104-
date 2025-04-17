@@ -33,17 +33,17 @@ body.light-mode {
 }
 
 /* Canvas styling */
-.starfield-background {
-  background-color: var(--canvas-background); /* Fallback */
-  position: absolute;
+/* .starfield-background {
+  background-color: var(--canvas-background); 
+
   top: 0;
   left: 0;
-  width: 100vw; /* Full viewport width */
-  height: 100vh; /* Full viewport height */
-  z-index: -1; /* Behind content */
-  display: block; /* Ensure proper rendering */
-  object-fit: cover; /* Prevent stretching */
-}
+  width: 100vw; 
+  height: 100vh; 
+  z-index: -1; 
+  display: block; 
+  object-fit: cover; 
+} */
 
 /* Apply theme variables */
 body {
