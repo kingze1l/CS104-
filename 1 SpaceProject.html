@@ -74,6 +74,18 @@
         </div>
 
         <section class="cards" id="featured-missions">
+            <div class="card" id="weather-alert-card">
+                <div class="loading-container" id="weather-alert-loading">
+                    <div class="loading-spinner"></div>
+                </div>
+                <div id="weather-alert-content" class="hidden">
+                    <img id="weather-alert-image" src="https://via.placeholder.com/350x180" alt="Space Weather Alert">
+                    <div class="mission-tag">SPACE WEATHER</div>
+                    <h3 id="weather-alert-title">Space Weather Alert</h3>
+                    <p id="weather-alert-text">Loading space weather data...</p>
+                    <button class="dismiss-btn" onclick="dismissWeatherAlert()">Dismiss</button>
+                </div>
+            </div>
             <!-- Mars Weather Card -->
             <div class="card" onclick="openModal('mars-modal')">
                 <img src="/api/placeholder/350/180" alt="Mars Weather Service" id="mars-image">
