@@ -21,7 +21,41 @@ function updateLaunchCountdown(launchDate) {
     countdownElement.textContent = countdown;
     if (modalCountdownElement) modalCountdownElement.textContent = countdown;
 }
+// Fetch space weather data from NOAA
+async function fetchSpaceWeather() {
+    try {
+        const response = await fetch('https://services.swpc.noaa.gov/json/goes/primary/xray-flares-latest.json');
+        if (response.ok) {
+            const data = await response.json();
+            const latestFlare = data[0] || {};
+            const alertTitle = latestFlare.flare_class ? `Solar Flare Alert: ${latestFlare.flare_class}` : 'No Active Alerts';
+            const alertText = latestFlare.message || 'No significant space weather events detected.';
+            
+            document.getElementById('weather-alert-title').textContent = alertTitle;
+            document.getElementById('weather-alert-text').textContent = alertText;
+            document.getElementById('weather-alert-image').src = 'https://www.swpc.noaa.gov/sites/default/files/images/primary/xray-flares.png';
+            
+            document.getElementById('weather-alert-loading').classList.add('hidden');
+            document.getElementById('weather-alert-content').classList.remove('hidden');
+        } else {
+            throw new Error('Failed to fetch space weather data');
+        }
+    } catch (error) {
+        console.error('Error fetching space weather:', error);
+        document.getElementById('weather-alert-title').textContent = 'Space Weather Unavailable';
+        document.getElementById('weather-alert-text').textContent = 'Unable to load space weather data.';
+        document.getElementById('weather-alert-loading').classList.add('hidden');
+        document.getElementById('weather-alert-content').classList.remove('hidden');
+    }
+}
 
+// Update DOMContentLoaded listener
+window.addEventListener('DOMContentLoaded', () => {
+    fetchSpaceWeather();
+    fetchNASAImages();
+    fetchUpcomingLaunches();
+    fetchLatestNews();
+});
 // NASA Image API integration
 async function fetchNASAImages() {
     // Define search queries for each category

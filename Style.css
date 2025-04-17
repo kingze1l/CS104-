@@ -839,3 +839,25 @@ main {
 .news-link:hover, .modal-content .news-link:hover {
     background-color: #e83819;
 }
+
+/* Weather Alert Card */
+#weather-alert-card {
+    border: 2px solid var(--accent-color);
+}
+
+.dismiss-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin: 10px 15px;
+    transition: background-color 0.3s;
+}
+
+.dismiss-btn:hover {
+    background-color: #e83819;
+}
