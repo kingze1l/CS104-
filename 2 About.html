@@ -9,9 +9,15 @@
     <link rel="stylesheet" href="Style.css">
     <link rel="stylesheet" href="about.css">
     <link rel="stylesheet" href="themes.css">
+    <link rel="stylesheet" href="space-background.css">
+
+    <!--Trouble is here-->
+    <!-- <link rel="stylesheet" href="animated-cards.css"> -->
 
   </head>
   <body>
+    <canvas class="starfield-background"></canvas>
+
     <!-- Navigation Bar -->
     <header class="navbar">
       <!-- Hamburger Menu (on left) -->
@@ -53,8 +59,8 @@
     <div class="menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
 
     <!-- Hero Section -->
-    <section class="hero">
-      <h1>Explore the Universe</h1>
+    <section class="hero" style ="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)), url(https://cdn.mos.cms.futurecdn.net/uVwrSjfVvkGwk9y6zNJMob-970-80.jpg);">
+      <h1>Explore the Solar System</h1>
       <p>Discover fascinating details about the planets</p>
     </section>
 
@@ -62,6 +68,13 @@
     <section class="search-section" id="searchSection">
       <input type="text" id="planetSearch" placeholder="Search for a planet..." onkeyup="filterPlanets()">
     </section>
+
+    <!-- Solar System 3D Model -->
+  <section class="solar-system-model">
+    <div class="iframe-container">
+      <iframe src="https://eyes.nasa.gov/apps/solar-system/#/solar_system?embed=true&logo=false&ui=false" allowfullscreen></iframe>
+    </div>
+  </section>
 
     <!-- Planet Cards -->
     <section class="planet-cards" id="result"><div class="spinner"></div></section>
@@ -99,5 +112,10 @@
 
     <script src="about.js"></script>
     <script src="DarkMode.js"></script>
+    <script src="space-background.js"></script>
+    <!-- <script src="Script.js"></script>
+    <script src="mainM.js"></script> -->
+    <script src="animated-cards.js"></script>
+    
   </body>
 </html>
