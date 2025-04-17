@@ -48,7 +48,7 @@ async function fetchNASAImages() {
         }
     };
     
-    const nasaApiKey = 'DEMO_KEY'; // Replace with your NASA API key for production
+    const nasaApiKey = 'rixHDVgrkkI8Juc24A6pJjpofyo9gpJsqhtAy0bk'; // Replace with your NASA API key for production
     
     // Fetch images for each category
     for (const [category, data] of Object.entries(imageCategories)) {
@@ -151,7 +151,7 @@ async function fetchLatestNews() {
         let allNews = [];
         
         // Fetch NASA news (APOD)
-        const nasaApiKey = 'DEMO_KEY'; // Replace with your NASA API key for production
+        const nasaApiKey = 'rixHDVgrkkI8Juc24A6pJjpofyo9gpJsqhtAy0bk'; // Replace with your NASA API key for production
         const nasaResponse = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}&count=3`);
         if (nasaResponse.ok) {
             const nasaData = await nasaResponse.json();
