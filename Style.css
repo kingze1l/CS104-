@@ -839,3 +839,71 @@ main {
 .news-link:hover, .modal-content .news-link:hover {
     background-color: #e83819;
 }
+
+/* Weather Alert Card */
+#weather-alert-card {
+    border: 2px solid var(--accent-color);
+}
+
+.dismiss-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin: 10px 15px;
+    transition: background-color 0.3s;
+}
+
+.dismiss-btn:hover {
+    background-color: #e83819;
+}
+/* Search Results */
+#search-results {
+    background-color: var(--card-background);
+    border-radius: 5px;
+    margin-top: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.search-result-item {
+    padding: 8px;
+    border-bottom: 1px solid var(--navbar-border);
+    cursor: pointer;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.search-result-item:hover {
+    background-color: var(--input-background);
+}
+
+.reduce-motion .card,
+.reduce-motion .horizontal-news-card,
+.reduce-motion .tab,
+.reduce-motion .explore-btn,
+.reduce-motion .modal-content,
+.reduce-motion .starfield-background,
+.reduce-motion .dismiss-btn,
+.reduce-motion .view-iss-btn,
+.reduce-motion .news-link {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+.reduce-motion .tab:hover .tab-icon {
+    animation: none !important;
+}
+
+.reduce-motion .loading-spinner {
+    animation: none !important;
+    border: 4px solid var(--accent-color) !important;
+}
