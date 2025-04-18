@@ -883,3 +883,27 @@ main {
 .search-result-item:hover {
     background-color: var(--input-background);
 }
+
+.reduce-motion .card,
+.reduce-motion .horizontal-news-card,
+.reduce-motion .tab,
+.reduce-motion .explore-btn,
+.reduce-motion .modal-content,
+.reduce-motion .starfield-background,
+.reduce-motion .dismiss-btn,
+.reduce-motion .view-iss-btn,
+.reduce-motion .news-link {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+    text-shadow: none !important;
+}
+
+.reduce-motion .tab:hover .tab-icon {
+    animation: none !important;
+}
+
+.reduce-motion .loading-spinner {
+    animation: none !important;
+    border: 4px solid var(--accent-color) !important;
+}
