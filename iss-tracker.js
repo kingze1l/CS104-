@@ -11,6 +11,10 @@ let updateInterval = null;
 // Three.js variables
 let scene, camera, renderer, earth, issMarker, issGlow;
 let isGlobeInitialized = false;
+let earthMaterial = null;
+let earthCloudMaterial = null;
+let clouds = null;
+let controls = null;
 
 // Initialize the page when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -147,6 +151,7 @@ function updateMapDisplay() {
 }
 
 // Initialize Three.js globe
+// Initialize Three.js globe
 function initGlobe() {
     const globeContainer = document.getElementById('iss-globe');
     const canvas = document.getElementById('globe-canvas');
@@ -159,7 +164,13 @@ function initGlobe() {
         0.1,
         1000
     );
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    
+    // Set up renderer with alpha
+    renderer = new THREE.WebGLRenderer({ 
+        canvas: canvas, 
+        antialias: true,
+        alpha: true 
+    });
     renderer.setSize(globeContainer.offsetWidth, globeContainer.offsetHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     
@@ -168,42 +179,98 @@ function initGlobe() {
     
     // Create Earth
     const earthGeometry = new THREE.SphereGeometry(5, 32, 32);
-    const earthTexture = new THREE.TextureLoader().load(
-        'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg'
-    );
-    const earthMaterial = new THREE.MeshPhongMaterial({
+    
+    // Load Earth texture with error handling
+    const textureLoader = new THREE.TextureLoader();
+    // Use a direct image path to avoid cross-origin issues
+    const earthTexture = textureLoader.load('/api/placeholder/2048/1024');
+    
+    // Use MeshPhongMaterial for the main Earth
+    earthMaterial = new THREE.MeshPhongMaterial({
         map: earthTexture,
-        shininess: 10
+        transparent: true,
+        opacity: 1.0,
+        shininess: 25,
+        specular: 0x333333
     });
+    
     earth = new THREE.Mesh(earthGeometry, earthMaterial);
     scene.add(earth);
     
+    // Create Earth wireframe/outline for when the Earth is transparent
+    const wireframeGeometry = new THREE.SphereGeometry(5.01, 32, 32);
+    const wireframeMaterial = new THREE.MeshBasicMaterial({
+        color: 0x3366cc,
+        transparent: true,
+        opacity: 0.1,
+        wireframe: true
+    });
+    const earthWireframe = new THREE.Mesh(wireframeGeometry, wireframeMaterial);
+    scene.add(earthWireframe);
+    
+    // Add grid lines for longitude/latitude
+    const gridGeometry = new THREE.SphereGeometry(5.02, 24, 24);
+    const gridMaterial = new THREE.MeshBasicMaterial({
+        color: 0x3377ff,
+        transparent: true,
+        opacity: 0.1,
+        wireframe: true
+    });
+    const earthGrid = new THREE.Mesh(gridGeometry, gridMaterial);
+    scene.add(earthGrid);
+    
     // Create ISS marker (larger size)
-    const issGeometry = new THREE.SphereGeometry(0.3, 16, 16); // Increased from 0.1 to 0.3
-    const issMaterial = new THREE.MeshBasicMaterial({ color: 0xfc3d21 });
+    const issGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+    const issMaterial = new THREE.MeshPhongMaterial({ 
+        color: 0xfc3d21,
+        specular: 0xffffff,
+        shininess: 100
+    });
     issMarker = new THREE.Mesh(issGeometry, issMaterial);
     scene.add(issMarker);
     
     // Add glow effect to ISS marker
     const glowGeometry = new THREE.SphereGeometry(0.5, 16, 16);
     const glowMaterial = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
+        color: 0xfc3d21,
         transparent: true,
-        opacity: 0.3
+        opacity: 0.4
     });
     issGlow = new THREE.Mesh(glowGeometry, glowMaterial);
     scene.add(issGlow);
     
-    // Add lighting
-    const ambientLight = new THREE.AmbientLight(0x404040);
+    // Add stronger lighting
+    const ambientLight = new THREE.AmbientLight(0x909090, 1.0); // Brighter ambient light
     scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0xffffff, 1, 100);
-    pointLight.position.set(10, 10, 10);
+    
+    const pointLight = new THREE.PointLight(0xffffff, 1.5, 100); // Stronger directional light
+    pointLight.position.set(15, 5, 15);
     scene.add(pointLight);
     
-    // Position camera (adjusted for better visibility)
-    camera.position.set(0, 5, 12); // Moved closer and tilted
+    // Add a secondary light for the dark side
+    const secondaryLight = new THREE.PointLight(0x2846a8, 0.5, 100);
+    secondaryLight.position.set(-15, -5, -15);
+    scene.add(secondaryLight);
+    
+    // Position camera
+    camera.position.set(0, 5, 12);
     camera.lookAt(0, 0, 0);
+    
+    // Add orbit controls with error handling
+    try {
+        if (typeof THREE.OrbitControls !== 'undefined') {
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.rotateSpeed = 0.5;
+            controls.minDistance = 7;
+            controls.maxDistance = 20;
+        } else {
+            console.warn("THREE.OrbitControls is not available. User won't be able to control the globe view.");
+        }
+    } catch (e) {
+        console.error("Could not initialize OrbitControls:", e);
+    }
     
     // Handle window resize
     window.addEventListener('resize', () => {
@@ -222,7 +289,7 @@ function initGlobe() {
 function animateGlobe() {
     requestAnimationFrame(animateGlobe);
     
-    // Rotate Earth slowly
+    // Rotate Earth slowly if it exists
     if (earth) {
         earth.rotation.y += 0.002;
     }
@@ -230,6 +297,24 @@ function animateGlobe() {
     // Update ISS position if data is available
     if (issMarker && issData) {
         updateISSPosition();
+        
+        // Check if ISS is behind the Earth relative to the camera
+        if (isGlobeInitialized && earth && issMarker) {
+            // Only check visibility every few frames to improve performance
+            if (Math.floor(Date.now() / 500) % 2 === 0) {
+                checkISSVisibility();
+            }
+        }
+    }
+    
+    // Update controls if they exist
+    if (controls) {
+        controls.update();
+    }
+    
+    // Ensure Earth is visible
+    if (earth && earthMaterial && earthMaterial.opacity === 0) {
+        earthMaterial.opacity = 1.0;
     }
     
     renderer.render(scene, camera);
@@ -237,22 +322,132 @@ function animateGlobe() {
 
 // Update ISS position on the globe
 function updateISSPosition() {
-    if (!issData) return;
+    if (!issData || !issMarker || !issGlow) return;
     
-    const lat = parseFloat(issData.latitude) * (Math.PI / 180);
-    const lon = parseFloat(issData.longitude) * (Math.PI / 180);
-    const altitude = 5.5; // Slightly above Earth's surface (radius 5)
+    // Ensure latitude and longitude are valid numbers
+    const latitude = parseFloat(issData.latitude);
+    const longitude = parseFloat(issData.longitude);
+    
+    if (isNaN(latitude) || isNaN(longitude)) {
+        console.error("Invalid latitude or longitude data:", issData);
+        return;
+    }
+    
+    // Convert to radians
+    const lat = latitude * (Math.PI / 180);
+    const lon = longitude * (Math.PI / 180);
+    
+    // Set altitude slightly above Earth's surface (Earth radius is 5)
+    const altitude = 5.5;
     
     // Convert lat/lon to 3D coordinates
     const x = altitude * Math.cos(lat) * Math.cos(lon);
     const y = altitude * Math.sin(lat);
     const z = -altitude * Math.cos(lat) * Math.sin(lon);
     
-    // Log the position for debugging
-    console.log(`ISS Position: x=${x.toFixed(2)}, y=${y.toFixed(2)}, z=${z.toFixed(2)} (Lat: ${issData.latitude}, Lon: ${issData.longitude})`);
-    
+    // Update positions
     issMarker.position.set(x, y, z);
-    issGlow.position.set(x, y, z); // Update glow position to match ISS marker
+    issGlow.position.set(x, y, z);
+    
+    // Add a pulsing effect to make ISS more visible
+    const pulseScale = 1 + 0.2 * Math.sin(Date.now() * 0.003); // Subtle pulsing effect
+    issGlow.scale.set(pulseScale, pulseScale, pulseScale);
+}
+
+// Check if ISS is behind the Earth relative to the camera
+
+// Check if ISS is behind the Earth relative to the camera
+function checkISSVisibility() {
+    // Make sure earth and issMarker are defined before proceeding
+    if (!earth || !issMarker) {
+        return;
+    }
+    
+    // Get vectors pointing from camera to ISS and from camera to Earth center
+    const cameraPosition = camera.position.clone();
+    const issPosition = issMarker.position.clone();
+    const earthPosition = earth.position.clone();
+    
+    // Get vector from camera to ISS
+    const cameraToISS = issPosition.clone().sub(cameraPosition);
+    
+    // Get vector from camera to Earth center
+    const cameraToEarth = earthPosition.clone().sub(cameraPosition);
+    
+    // Get vector from Earth center to ISS
+    const earthToISS = issPosition.clone().sub(earthPosition);
+    
+    // Normalize vectors to get directions
+    const cameraToISSDir = cameraToISS.clone().normalize();
+    const cameraToEarthDir = cameraToEarth.clone().normalize();
+    
+    // Calculate dot product to determine if ISS is behind Earth
+    const dotProduct = cameraToISSDir.dot(cameraToEarthDir);
+    
+    // Calculate distance from camera to ISS
+    const distanceToISS = cameraToISS.length();
+    
+    // Calculate distance from camera to Earth
+    const distanceToEarth = cameraToEarth.length();
+    
+    // Calculate distance from Earth center to ISS
+    const earthToISSLength = earthToISS.length();
+    
+    // The ISS is behind Earth relative to camera if:
+    // 1. The angle between camera-to-Earth and camera-to-ISS vectors is small (dot product close to 1)
+    // 2. The distance from camera to ISS is greater than the distance from camera to Earth
+    // 3. The ISS is on the far side of Earth
+    
+    // More lenient check to ensure transparency is triggered appropriately
+    const isBehindEarth = dotProduct > 0.80 && 
+                          distanceToISS > distanceToEarth && 
+                          earthToISSLength > 4.5;
+    
+    // Make Earth transparent when ISS is behind it
+    if (isBehindEarth) {
+        // Make Earth semi-transparent with smooth transition - but not completely invisible
+        if (earthMaterial && earthMaterial.opacity > 0.15) {
+            earthMaterial.opacity = 0.15;
+        }
+        
+        // Visual feedback in the UI
+        const latElement = document.getElementById('globe-iss-lat');
+        const lngElement = document.getElementById('globe-iss-lng');
+        if (latElement) latElement.style.color = '#fc3d21';
+        if (lngElement) lngElement.style.color = '#fc3d21';
+        
+        // Add a visual indicator text in the overlay
+        const overlayElement = document.querySelector('.globe-overlay');
+        if (overlayElement) {
+            let indicator = document.getElementById('behind-indicator');
+            if (!indicator) {
+                indicator = document.createElement('div');
+                indicator.id = 'behind-indicator';
+                indicator.style.color = '#fc3d21';
+                indicator.style.fontWeight = 'bold';
+                indicator.style.marginTop = '10px';
+                indicator.textContent = 'ISS is behind Earth';
+                overlayElement.appendChild(indicator);
+            }
+        }
+    } else {
+        // Make Earth opaque again with smooth transition
+        if (earthMaterial && earthMaterial.opacity < 1.0) {
+            earthMaterial.opacity = 1.0;
+        }
+        
+        // Reset visual feedback
+        const latElement = document.getElementById('globe-iss-lat');
+        const lngElement = document.getElementById('globe-iss-lng');
+        if (latElement) latElement.style.color = '';
+        if (lngElement) lngElement.style.color = '';
+        
+        // Remove indicator if it exists
+        const indicator = document.getElementById('behind-indicator');
+        if (indicator) {
+            indicator.remove();
+        }
+    }
 }
 
 // Update the 3D globe display
