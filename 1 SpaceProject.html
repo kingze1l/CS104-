@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="space-background.css">
     <!-- <link rel="stylesheet" href="animated-cards.css"> -->
     <link rel="stylesheet" href="themes.css">
+    <link rel="stylesheet" href="search.css">
+
    
 </head>
 <body>
@@ -39,7 +41,8 @@
         </div>
 
         <div id="search-container">
-            <input type="text" id="search-input" placeholder="Search missions, news..." style="width: 100%; padding: 8px; font-size: 1rem; border-radius: 5px;">
+            <input type="text" id="search-input" placeholder="Search news, planets..." autofocus>
+            <div id="search-autocomplete" class="search-autocomplete"></div>
         </div>
     </header>
     
@@ -405,6 +408,7 @@
     <script src="space-background.js"></script>
     <script src="Script.js"></script>
     <script src="mainM.js"></script>
+    <script src="search.js"></script>
     <script src="animated-cards.js"></script>
     <script src="DarkMode.js"></script>
    

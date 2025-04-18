@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="Style.css">
     <link rel="stylesheet" href="iss-tracker.css">
     <link rel="stylesheet" href="themes.css">
+    <link rel="stylesheet" href="search.css">
     
     <!-- Load Three.js directly from CDN with integrity check -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" 
@@ -39,7 +40,8 @@
         </div>
 
         <div id="search-container">
-            <input type="text" id="search-input" placeholder="Search missions, news..." style="width: 100%; padding: 8px; font-size: 1rem; border-radius: 5px;">
+            <input type="text" id="search-input" placeholder="Search news, planets..." autofocus>
+            <div id="search-autocomplete" class="search-autocomplete"></div>
         </div>
     </header>
     
@@ -245,6 +247,7 @@
     <!-- Load other scripts AFTER Three.js is loaded -->
     <script src="Script.js"></script>
     <script src="mainM.js"></script>
+    <script src="search.js"></script>
     
     <!-- Load ISS tracker script last -->
     <script src="iss-tracker.js"></script>

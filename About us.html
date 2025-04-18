@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="Style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="themes.css" />
+  <link rel="stylesheet" href="search.css">
 </head>
 <body>
   <!-- Navbar -->
@@ -32,9 +33,10 @@
         <span class="header-icon" onclick="window.location.href='7 Settings.html'">⚙️</span>
     </div>
 
-    <!-- <div id="search-container">
-        <input type="text" id="search-input" placeholder="Search missions, news..." style="width: 100%; padding: 8px; font-size: 1rem; border-radius: 5px;">
-    </div> -->
+    <div id="search-container">
+      <input type="text" id="search-input" placeholder="Search news, planets..." autofocus>
+      <div id="search-autocomplete" class="search-autocomplete"></div>
+  </div>
 </header>
 
   <!-- Hero Section -->
@@ -80,5 +82,7 @@
     </a>
   </nav>
   <script src="DarkMode.js"></script>
+  <script src="search.js"></script>
+  <script src="mainM.js"></script>
 </body>
 </html>
