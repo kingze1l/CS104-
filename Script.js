@@ -48,6 +48,13 @@ async function fetchSpaceWeather() {
         document.getElementById('weather-alert-content').classList.remove('hidden');
     }
 }
+// Dismiss weather alert card
+function dismissWeatherAlert() {
+    const weatherCard = document.getElementById('weather-alert-card');
+    if (weatherCard) {
+        weatherCard.style.display = 'none';
+    }
+}
 
 // Update DOMContentLoaded listener
 window.addEventListener('DOMContentLoaded', () => {
