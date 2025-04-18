@@ -12,8 +12,17 @@ function closeMenu() {
     document.querySelector('.menu-icon').classList.remove('open');
 }
 
+//fucntion to search 
 function toggleSearch() {
-    document.getElementById('search-container').classList.toggle('show');
+    const searchContainer = document.getElementById('search-container');
+    const searchInput = document.getElementById('search-input');
+    if (searchContainer) {
+        searchContainer.classList.toggle('show');
+        if (searchContainer.classList.contains('show')) {
+            searchInput.focus();
+            document.getElementById('search-results').classList.add('hidden');
+        }
+    }
 }
 
 // Modified function to handle direct news article navigation

@@ -63,6 +63,73 @@ window.addEventListener('DOMContentLoaded', () => {
     fetchUpcomingLaunches();
     fetchLatestNews();
 });
+// Script.js: Add before fetchNASAImages
+async function handleSearch(query) {
+    const resultsContainer = document.getElementById('search-results');
+    if (!query || !resultsContainer) return;
+
+    resultsContainer.innerHTML = '<div class="loading-container"><div class="loading-spinner"></div></div>';
+    resultsContainer.classList.remove('hidden');
+
+    let results = [];
+
+    // Search news
+    try {
+        const newsResponse = await fetch(`https://api.spaceflightnewsapi.net/v4/articles/?limit=10&title_contains=${encodeURIComponent(query)}`);
+        if (newsResponse.ok) {
+            const newsData = await newsResponse.json();
+            results.push(...newsData.results.map(item => ({
+                type: 'News',
+                title: item.title,
+                url: item.url
+            })));
+        }
+    } catch (error) {
+        console.error('Error searching news:', error);
+    }
+
+    // Search launches
+    try {
+        const launchesResponse = await fetch('https://api.spacexdata.com/v5/launches/upcoming');
+        if (launchesResponse.ok) {
+            const launches = await launchesResponse.json();
+            results.push(...launches
+                .filter(launch => launch.name.toLowerCase().includes(query.toLowerCase()))
+                .map(launch => ({
+                    type: 'Launch',
+                    title: launch.name,
+                    url: '#launches-modal'
+                })));
+        }
+    } catch (error) {
+        console.error('Error searching launches:', error);
+    }
+
+    // Display results
+    if (results.length === 0) {
+        resultsContainer.innerHTML = '<p>No results found.</p>';
+    } else {
+        resultsContainer.innerHTML = results.map(item => `
+            <div class="search-result-item" onclick="${item.url.startsWith('#') ? `openModal('${item.url.slice(1)}')` : `window.open('${item.url}', '_blank')`}">
+                <strong>${item.type}:</strong> ${item.title}
+            </div>
+        `).join('');
+    }
+}
+
+// Update DOMContentLoaded listener
+window.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            handleSearch(e.target.value.trim());
+        });
+    }
+    fetchSpaceWeather();
+    fetchNASAImages();
+    fetchUpcomingLaunches();
+    fetchLatestNews();
+});
 // NASA Image API integration
 async function fetchNASAImages() {
     // Define search queries for each category
