@@ -412,3 +412,34 @@ window.addEventListener('DOMContentLoaded', () => {
     fetchUpcomingLaunches();
     fetchLatestNews();
 });
+
+// Add this to your Script.js file (near the end)
+
+// Initialize the page when DOM is loaded
+window.addEventListener('DOMContentLoaded', () => {
+    // Ensure modals start hidden
+    const modals = document.getElementsByClassName('modal');
+    for (let i = 0; i < modals.length; i++) {
+        modals[i].style.display = 'none';
+    }
+    
+    // Fetch NASA images for Mars, Black Holes, and ISS sections
+    fetchNASAImages();
+    
+    // Fetch API data
+    Promise.all([
+        fetchUpcomingLaunches(),
+        fetchLatestNews()
+    ]).then(() => {
+        // Once all data is loaded, signal the preloader to complete
+        if (window.setContentReady) {
+            window.setContentReady();
+        }
+    }).catch(error => {
+        console.error('Error loading data:', error);
+        // Even if there's an error, we should still show the UI
+        if (window.setContentReady) {
+            window.setContentReady();
+        }
+    });
+});
