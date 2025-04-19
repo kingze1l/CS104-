@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA News</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" />
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="space-background.css">
+    <link rel="stylesheet" href="themes.css">
+    <link rel="stylesheet" href="search.css">
+    <link rel="stylesheet" href="news.css">
+</head>
+<body>
+    <canvas class="starfield-background"></canvas>
+  
+    <!-- Header -->
+    <header class="navbar">
+        <!-- Hamburger Menu (on left) -->
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+
+        <!-- Logo in the center -->
+        <div class="logo">
+            <a href="1 SpaceProject.html">
+                <img src=".vscode\img\elon.jpg" alt="NASA Logo">
+            </a>
+        </div>
+
+        <div class="header-icons">
+            <!-- Search Icon -->
+            <span class="header-icon" onclick="toggleSearch()">🔍</span>
+            <!-- Settings Icon -->
+            <span class="header-icon" onclick="window.location.href='7 Settings.html'">⚙️</span>
+        </div>
+
+        <div id="search-container">
+            <input type="text" id="search-input" placeholder="Search news, planets..." autofocus>
+            <div id="search-autocomplete" class="search-autocomplete"></div>
+        </div>
+    </header>
+    
+    <!-- Fullscreen Clickable Menu -->
+    <div class="menu-overlay" onclick="closeMenu()"></div>
+    
+    <nav class="mobile-menu">
+        <ul>
+            <li><a href="1 SpaceProject.html">Home</a></li>
+            <li><a href="#">Missions</a></li>
+            <li><a href="#">Gallery</a></li>
+            <li><a href="2 About.html">About Planets</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <!-- News Header -->
+        <div class="news-header">
+            <h1>NASA News</h1>
+            <div class="news-tabs">
+                <button class="news-tab active" data-category="all">All</button>
+                <button class="news-tab" data-category="mission">Missions</button>
+                <button class="news-tab" data-category="research">Research</button>
+                <button class="news-tab" data-category="people">People</button>
+            </div>
+        </div>
+        
+        <!-- Featured News -->
+        <section class="featured-news">
+            <div class="section-header">
+                <h2>Featured</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            <div class="featured-news-container">
+                <!-- Featured news will be loaded here by JS -->
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Releases -->
+        <section class="news-releases">
+            <div class="section-header">
+                <h2>News Releases</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            <div class="news-grid">
+                <!-- News releases will be loaded here by JS -->
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Humans in Space -->
+        <section class="humans-space">
+            <div class="section-header">
+                <h2>Humans in Space</h2>
+                <a href="#" class="see-all">See All</a>
+            </div>
+            <div class="news-grid">
+                <!-- Humans in space news will be loaded here by JS -->
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- We're not using the modal anymore since we're directly opening articles -->
+        <!-- Removed the news modal as per request -->
+    </main>
+
+    <!--Footer-->
+    <nav class="nav-tabs">
+        <a href="1 SpaceProject.html" class="tab">
+            <div class="tab-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="news.html" class="tab active">
+            <div class="tab-icon">📰</div>
+            <div>News</div>
+        </a>
+        <a href="iss-tracker.html" class="tab">
+            <div class="tab-icon">🚀</div>
+            <div>NASA+</div>
+        </a>
+        <a href="2 About.html" class="tab">
+            <div class="tab-icon">🌍</div>
+            <div>About</div>
+        </a>
+        <a href="#" class="tab">
+            <div class="tab-icon">⭐</div>
+            <div>Featured</div>
+        </a>
+    </nav>
+
+    <script src="space-background.js"></script>
+    <script src="Script.js"></script>
+    <script src="mainM.js"></script>
+    <script src="search.js"></script>
+    <script src="DarkMode.js"></script>
+    <script src="news.js"></script>
+    <script src="search-news.js"></script>
+</body>
+</html>

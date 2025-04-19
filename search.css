@@ -353,3 +353,55 @@
     background-color: #fc3d21;
     border-radius: 4px;
 }
+
+/* News page specific search styles - Add these to your search.css */
+
+/* Ensure search container appears over other elements on news page */
+.news-header {
+    position: relative;
+    z-index: 5;
+}
+
+/* Ensure search container on news page has correct z-index */
+body .navbar #search-container {
+    z-index: 1100; /* Higher than other elements */
+}
+
+/* Style adjustments for search results on news page */
+.search-results-content .news-section {
+    margin-top: 20px;
+}
+
+/* Make search results similar to news cards */
+.search-news-list .news-result-item {
+    background-color: #111;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.search-news-list .news-result-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* News-specific search result styling */
+.search-news-list .news-result-content h4 {
+    font-family: 'Orbitron', sans-serif;
+    color: #fc3d21;
+}
+
+/* Improve autocomplete styling on news page */
+.news-page .autocomplete-item.news-item {
+    border-left: 3px solid #fc3d21;
+}
+
+/* Make autocomplete match the news page theme */
+.news-page .search-autocomplete {
+    background-color: #111;
+    border: 1px solid #333;
+}
+
+/* Ensure search modal has high z-index */
+#search-results-modal {
+    z-index: 1200;
+}
