@@ -1,5 +1,31 @@
 /* news.css - Styles specific to the NASA app news page */
 
+/* Default dark mode colors */
+:root {
+    --news-text-color: #fff;
+    --news-secondary-text: #ccc;
+    --news-background: #111;
+    --news-card-background: #111;
+    --news-card-shadow: rgba(0, 0, 0, 0.3);
+    --news-accent-color: #fc3d21; /* NASA red - keeping this the same in both modes */
+    --news-date-color: #ff0000;
+    --news-hover-background: #000000;
+    --news-border-color: #000000;
+}
+
+/* Light mode colors */
+body.light-mode {
+    --news-text-color: #000000;
+    --news-secondary-text: #000000;
+    --news-background: #f5f5f5;
+    --news-card-background: #fff;
+    --news-card-shadow: rgba(0, 0, 0, 0.1);
+    --news-accent-color: #fc3d21; /* NASA red - keeping it consistent */
+    --news-date-color: #ff0000;
+    --news-hover-background: #000000;
+    --news-border-color: #000000;
+}
+
 .news-header {
     padding: 20px;
     text-align: center;
@@ -9,8 +35,12 @@
     font-family: 'Orbitron', sans-serif;
     font-size: 2rem;
     margin-bottom: 15px;
-    color: #fff;
+    color: var(--news-text-color);
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+body.light-mode .news-header h1 {
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .news-tabs {
@@ -22,8 +52,8 @@
 }
 
 .news-tab {
-    background-color: #111;
-    color: #ccc;
+    background-color: var(--news-background);
+    color: var(--news-secondary-text);
     border: none;
     padding: 8px 16px;
     border-radius: 20px;
@@ -33,12 +63,12 @@
 }
 
 .news-tab:hover {
-    background-color: #222;
-    color: #fff;
+    background-color: var(--news-hover-background);
+    color: var(--news-text-color);
 }
 
 .news-tab.active {
-    background-color: #fc3d21;
+    background-color: #fc3d21; /* Always red */
     color: white;
 }
 
@@ -54,11 +84,11 @@
     font-size: 1.4rem;
     font-weight: bold;
     font-family: 'Orbitron', sans-serif;
-    color: #fff;
+    color: var(--news-text-color);
 }
 
 .see-all {
-    color: #fff;
+    color: var(--news-text-color);
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -71,10 +101,10 @@
 }
 
 .featured-news-card {
-    background-color: #111;
+    background-color: var(--news-card-background);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px var(--news-card-shadow);
     margin-bottom: 20px;
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
@@ -89,7 +119,7 @@
     width: 100%;
     height: 200px;
     object-fit: cover;
-    background-color: #222; /* Add background color while image loads */
+    background-color: var(--news-hover-background);
 }
 
 .featured-news-content {
@@ -99,15 +129,15 @@
 .featured-news-content h3 {
     font-family: 'Orbitron', sans-serif;
     margin-bottom: 10px;
-    color: #fc3d21;
+    color: #fc3d21; /* Always red */
 }
 
 .featured-news-content p {
-    color: #ccc;
+    color: var(--news-secondary-text);
     font-size: 0.9rem;
     margin-bottom: 10px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -117,12 +147,12 @@
     justify-content: space-between;
     align-items: center;
     font-size: 0.8rem;
-    color: #999;
+    color: var(--news-date-color);
 }
 
 .featured-news-source {
     background-color: rgba(252, 61, 33, 0.2);
-    color: #fc3d21;
+    color: #fc3d21; /* Always red */
     padding: 3px 8px;
     border-radius: 4px;
     font-size: 0.7rem;
@@ -139,11 +169,11 @@
 }
 
 .news-card {
-    background-color: #111;
+    background-color: var(--news-card-background);
     border-radius: 10px;
     overflow: hidden;
     height: 220px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px var(--news-card-shadow);
     cursor: pointer;
     transition: transform 0.3s, box-shadow 0.3s;
     position: relative;
@@ -158,7 +188,7 @@
     width: 100%;
     height: 120px;
     object-fit: cover;
-    background-color: #222; /* Add background color while image loads */
+    background-color: var(--news-hover-background);
 }
 
 .news-card-content {
@@ -170,19 +200,19 @@
 .news-card h3 {
     font-size: 0.9rem;
     font-family: 'Orbitron', sans-serif;
-    color: #fc3d21;
+    color: #fc3d21; /* Always red */
     margin-bottom: 5px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+   
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
 .news-card p {
     font-size: 0.8rem;
-    color: #ccc;
+    color: var(--news-secondary-text);
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+   
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -192,7 +222,7 @@
     top: 10px;
     right: 10px;
     background-color: rgba(0, 0, 0, 0.7);
-    color: #fc3d21;
+    color: #fc3d21; /* Always red */
     padding: 3px 8px;
     border-radius: 4px;
     font-size: 0.7rem;
@@ -200,18 +230,25 @@
     font-weight: bold;
 }
 
+body.light-mode .news-source-tag {
+    background-color: rgba(255, 255, 255, 0.7);
+    color: #fc3d21; /* Always red */
+}
+
 .news-date {
     position: absolute;
     bottom: 10px;
     right: 10px;
     font-size: 0.7rem;
-    color: #999;
+    color: var(--news-date-color);
     z-index: 1;
 }
 
 /* Modal improvements for news page */
 .news-modal-content {
     max-width: 600px;
+    background-color: var(--news-card-background);
+    color: var(--news-text-color);
 }
 
 .news-modal-content img {
@@ -224,7 +261,7 @@
 
 .news-link {
     display: inline-block;
-    background-color: #fc3d21;
+    background-color: #fc3d21; /* Always red */
     color: white;
     padding: 10px 16px;
     border-radius: 5px;
@@ -236,13 +273,13 @@
 }
 
 .news-link:hover {
-    background-color: #e83819;
+    background-color: #e83819; /* Darker red on hover */
 }
 
 /* Category label styles */
 .category-tag {
-    background-color: #222;
-    color: #fc3d21;
+    background-color: var(--news-hover-background);
+    color: #fc3d21; /* Always red */
     padding: 3px 8px;
     border-radius: 4px;
     font-size: 0.7rem;
@@ -296,13 +333,86 @@
     width: 40px;
     height: 40px;
     border: 4px solid rgba(255, 255, 255, 0.1);
-    border-left: 4px solid #fc3d21;
+    border-left: 4px solid #fc3d21; /* Always red */
     border-radius: 50%;
     animation: spin 1s linear infinite;
+}
+
+body.light-mode .loading-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #fc3d21; /* Always red */
 }
 
 @keyframes spin {
     to {
         transform: rotate(360deg);
     }
+}
+
+/* Light mode special adjustments */
+body.light-mode .news-card:hover,
+body.light-mode .featured-news-card:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Fix for search results in light mode */
+body.light-mode .search-results-content,
+body.light-mode .search-news-list .news-result-item {
+    color: var(--news-text-color);
+    background-color: var(--news-card-background);
+}
+
+body.light-mode .search-autocomplete,
+body.light-mode .autocomplete-item {
+    background-color: var(--news-card-background);
+}
+
+body.light-mode .autocomplete-title {
+    color: var(--news-text-color);
+}
+
+body.light-mode .autocomplete-subtitle {
+    color: var(--news-secondary-text);
+}
+
+/* Keep accent colors red in search results */
+body.light-mode .news-result-content h4,
+.news-result-content h4 {
+    color: #fc3d21 !important; /* Always red */
+}
+
+body.light-mode .search-section h3,
+.search-section h3 {
+    color: #fc3d21 !important; /* Always red */
+}
+
+body.light-mode .search-results-count,
+.search-results-count {
+    color: #fc3d21 !important; /* Always red */
+}
+
+body.light-mode .modal-header h2,
+.modal-header h2 {
+    color: #fc3d21 !important; /* Always red */
+}
+
+/* Fix for error messages in light mode */
+body.light-mode .error-message {
+    color: var(--news-text-color);
+}
+
+/* Ensure autocomplete uses red */
+.autocomplete-category, 
+body.light-mode .autocomplete-category {
+    color: #fc3d21 !important; /* Always red */
+}
+
+.autocomplete-icon,
+body.light-mode .autocomplete-icon {
+    color: #fc3d21 !important; /* Always red */
+}
+
+.see-all,
+body.light-mode .see-all {
+    color: #fc3d21 !important; /* Always red */
 }

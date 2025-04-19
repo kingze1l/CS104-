@@ -226,3 +226,5 @@ window.openModal = openModal;
 window.closeModal = closeModal;
 window.openFullScreenViewer = openFullScreenViewer;
 window.closeFullScreenViewer = closeFullScreenViewer;
+// Add this line after you assign data to planetsData
+window.planetsData = planetsData;

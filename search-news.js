@@ -93,5 +93,6 @@ function handleNewsSearchResult(newsItem) {
     return false;
 }
 
+
 // Add this to window object for global access
 window.handleNewsSearchResult = handleNewsSearchResult;

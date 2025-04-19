@@ -1,163 +1,157 @@
-// search.js - Modified to work with your existing code
+// search-news.js - Specialized search functionality for the news page
 
-// Global variables to store data for search
-let globalNewsData = [];
-let globalPlanetsData = [];
-let searchIndex = {
-    news: [],
-    planets: []
-};
+// Global variables to ensure search works specifically with news data
+let newsSearchIndex = [];
 
-// Initialize search functionality when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    initializeSearch();
+// Document ready handler for news page specific search initialization
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing news page search...');
+    
+    // Initialize search functionality
+    initializeNewsSearch();
+    
+    // Ensure the search toggle works
+    const searchIcon = document.querySelector('.header-icon[onclick="toggleSearch()"]');
+    if (searchIcon) {
+        console.log('Search icon found');
+        // We don't need to add another event listener since it has onclick attribute
+    }
+    
+    // Make sure search container closes when clicking outside
+    document.addEventListener('click', function(event) {
+        const searchContainer = document.getElementById('search-container');
+        const searchIcon = document.querySelector('.header-icon[onclick="toggleSearch()"]');
+        const searchInput = document.getElementById('search-input');
+        
+        if (searchContainer && 
+            searchIcon && 
+            event.target !== searchIcon && 
+            event.target !== searchInput && 
+            !searchContainer.contains(event.target)) {
+            searchContainer.classList.remove('show');
+        }
+    });
 });
 
-// Initialize the search functionality
-function initializeSearch() {
-    // Set up search input functionality
+// Initialize news search functionality
+function initializeNewsSearch() {
+    // Get the search input and autocomplete container
     const searchInput = document.getElementById('search-input');
-    if (searchInput) {
-        // Add event listener for input changes
-        searchInput.addEventListener('input', handleSearchInput);
+    const autocompleteContainer = document.getElementById('search-autocomplete');
+    
+    if (!searchInput || !autocompleteContainer) {
+        console.error('Search elements not found');
+        return;
+    }
+    
+    // Add input event listener
+    searchInput.addEventListener('input', handleNewsSearchInput);
+    
+    // Build search index from all available news data
+    buildNewsSearchIndex();
+    
+    console.log('News search initialized');
+}
+
+// Build search index from existing news data
+function buildNewsSearchIndex() {
+    // Check if we have access to the allNews array from news.js
+    if (window.allNews && Array.isArray(window.allNews) && window.allNews.length > 0) {
+        console.log('Using existing news data for search index');
+        newsSearchIndex = window.allNews.map(item => ({
+            id: item.title, // Using title as ID since it should be unique enough
+            text: `${item.title.toLowerCase()} ${(item.content || '').toLowerCase()} ${item.source.toLowerCase()}`,
+            data: item
+        }));
+    } else {
+        // Try accessing news arrays from the global scope
+        console.log('No global allNews found, trying to find alternate sources');
+        let combinedNews = [];
         
-        // Add event listener for form submission
-        const searchForm = searchInput.closest('form') || searchInput.parentElement;
-        if (searchForm) {
-            searchForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                performSearch(searchInput.value);
-            });
+        // Try to access the different news arrays
+        if (window.featuredNews && Array.isArray(window.featuredNews)) {
+            combinedNews = [...combinedNews, ...window.featuredNews];
         }
-
-        // Create and append the autocomplete container
-        const autocompleteContainer = document.createElement('div');
-        autocompleteContainer.id = 'search-autocomplete';
-        autocompleteContainer.className = 'search-autocomplete';
-        if (!document.getElementById('search-autocomplete')) {
-            searchInput.parentNode.appendChild(autocompleteContainer);
+        
+        if (window.newsReleases && Array.isArray(window.newsReleases)) {
+            combinedNews = [...combinedNews, ...window.newsReleases];
         }
-    }
-
-    // Collect data for search index
-    collectSearchData();
-}
-
-// Collect data for search
-async function collectSearchData() {
-    // Determine which page we're on
-    const currentPath = window.location.pathname;
-    
-    // Collect news data if we're on the home page or news page
-    if (currentPath.includes('SpaceProject.html') || currentPath.includes('index.html') || currentPath === '/' || currentPath.includes('News')) {
-        await fetchNewsForSearch();
+        
+        if (window.humansInSpaceNews && Array.isArray(window.humansInSpaceNews)) {
+            combinedNews = [...combinedNews, ...window.humansInSpaceNews];
+        }
+        
+        if (combinedNews.length > 0) {
+            console.log('Found news data in separate arrays');
+            newsSearchIndex = combinedNews.map(item => ({
+                id: item.title,
+                text: `${item.title.toLowerCase()} ${(item.content || '').toLowerCase()} ${item.source.toLowerCase()}`,
+                data: item
+            }));
+        } else {
+            // If no existing news data is found, we'll fetch it
+            console.log('No existing news data found, will fetch news for search index');
+            fetchNewsForSearchIndex();
+        }
     }
     
-    // Collect planets data if we're on the about planets page
-    if (currentPath.includes('About.html')) {
-        await fetchPlanetsForSearch();
-    }
+    console.log(`Search index built with ${newsSearchIndex.length} news items`);
 }
 
-// Fetch news data for search
-async function fetchNewsForSearch() {
+// Fetch news data specifically for the search index if needed
+async function fetchNewsForSearchIndex() {
     try {
-        // First try to get NASA APOD news
+        // Try to use the API keys already defined in your code
         const nasaApiKey = 'rixHDVgrkkI8Juc24A6pJjpofyo9gpJsqhtAy0bk';
-        const nasaResponse = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}&count=10`);
+        let tempNewsIndex = [];
         
+        // Fetch NASA APOD news
+        const nasaResponse = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${nasaApiKey}&count=10`);
         if (nasaResponse.ok) {
             const nasaData = await nasaResponse.json();
-            globalNewsData = [...globalNewsData, ...nasaData.map(item => ({
+            tempNewsIndex.push(...nasaData.map(item => ({
                 id: `nasa-${item.date}`,
-                title: item.title,
-                content: item.explanation,
-                image: item.url || '/api/placeholder/180/120',
-                date: new Date(item.date),
-                source: 'NASA',
-                url: item.hdurl || item.url,
-                type: 'news'
-            }))];
+                text: `${item.title.toLowerCase()} ${item.explanation.toLowerCase()} nasa`,
+                data: {
+                    title: item.title,
+                    content: item.explanation,
+                    image: item.url || '/api/placeholder/180/120',
+                    date: new Date(item.date),
+                    source: 'NASA',
+                    url: item.hdurl || item.url,
+                    type: 'news'
+                }
+            })));
         }
         
-        // Then try to get Spaceflight News API data
-        const spaceflightResponse = await fetch('https://api.spaceflightnewsapi.net/v4/articles/?limit=20');
+        // Fetch Spaceflight News API data
+        const spaceflightResponse = await fetch('https://api.spaceflightnewsapi.net/v4/articles/?limit=15');
         if (spaceflightResponse.ok) {
             const spaceflightData = await spaceflightResponse.json();
-            globalNewsData = [...globalNewsData, ...spaceflightData.results.map(item => ({
+            tempNewsIndex.push(...spaceflightData.results.map(item => ({
                 id: `sf-${item.id}`,
-                title: item.title,
-                content: item.summary,
-                image: item.image_url || '/api/placeholder/180/120',
-                date: new Date(item.published_at),
-                source: item.news_site,
-                url: item.url,
-                type: 'news'
-            }))];
+                text: `${item.title.toLowerCase()} ${item.summary.toLowerCase()} ${item.news_site.toLowerCase()}`,
+                data: {
+                    title: item.title,
+                    content: item.summary,
+                    image: item.image_url || '/api/placeholder/180/120',
+                    date: new Date(item.published_at),
+                    source: item.news_site,
+                    url: item.url,
+                    type: 'news'
+                }
+            })));
         }
         
-        // Build search index for news
-        searchIndex.news = globalNewsData.map(item => ({
-            id: item.id,
-            text: `${item.title.toLowerCase()} ${item.content.toLowerCase()} ${item.source.toLowerCase()}`,
-            data: item
-        }));
-        
-        console.log(`Search index built with ${searchIndex.news.length} news items`);
+        newsSearchIndex = tempNewsIndex;
+        console.log(`Search index built with ${newsSearchIndex.length} fetched news items`);
     } catch (error) {
-        console.error('Error fetching news for search:', error);
+        console.error('Error fetching news for search index:', error);
     }
 }
 
-// Fetch planets data for search
-async function fetchPlanetsForSearch() {
-    try {
-        const apiKey = "COjts7snVqyUL9OD04ukQA==sHTQPO0uLGRS46bQ";
-        const planetNames = [
-            "Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune",
-        ];
-
-        const promises = planetNames.map((planetName) =>
-            fetch(`https://api.api-ninjas.com/v1/planets?name=${planetName}`, { 
-                headers: { "X-Api-Key": apiKey } 
-            })
-            .then((response) => response.json())
-            .then((data) => data[0] || null)
-            .catch(() => null)
-        );
-
-        const planetsData = await Promise.all(promises);
-        
-        globalPlanetsData = planetsData
-            .filter(planet => planet !== null)
-            .map(planet => ({
-                id: `planet-${planet.name.toLowerCase()}`,
-                name: planet.name,
-                mass: planet.mass,
-                radius: planet.radius,
-                temperature: planet.temperature,
-                period: planet.period,
-                semi_major_axis: planet.semi_major_axis,
-                distance_light_year: planet.distance_light_year,
-                host_star_mass: planet.host_star_mass,
-                host_star_temperature: planet.host_star_temperature,
-                type: 'planet'
-            }));
-            
-        // Build search index for planets
-        searchIndex.planets = globalPlanetsData.map(item => ({
-            id: item.id,
-            text: `${item.name.toLowerCase()} planet`,
-            data: item
-        }));
-        
-        console.log(`Search index built with ${searchIndex.planets.length} planets`);
-    } catch (error) {
-        console.error('Error fetching planets for search:', error);
-    }
-}
-
-function handleSearchInput(event) {
+// Handle search input for news
+function handleNewsSearchInput(event) {
     const query = event.target.value.toLowerCase().trim();
     const autocompleteContainer = document.getElementById('search-autocomplete');
     
@@ -166,24 +160,35 @@ function handleSearchInput(event) {
         autocompleteContainer.innerHTML = '';
     }
     
-    if (query.length < 1) {
+    if (query.length < 2) {
         if (autocompleteContainer) {
             autocompleteContainer.style.display = 'none';
         }
         return;
     }
     
-    // Search in both indexes
-    const newsResults = searchIndex.news.filter(item => 
-        item.text.includes(query)
-    ).slice(0, 4);
+    // Make sure we have items in our index
+    if (newsSearchIndex.length === 0) {
+        console.log('Search index is empty, rebuilding...');
+        buildNewsSearchIndex();
+        
+        // If still empty, show a message and return
+        if (newsSearchIndex.length === 0) {
+            if (autocompleteContainer) {
+                autocompleteContainer.style.display = 'block';
+                autocompleteContainer.innerHTML = '<div class="autocomplete-category">No news data available</div>';
+            }
+            return;
+        }
+    }
     
-    const planetResults = searchIndex.planets.filter(item => 
+    // Search in news index
+    const newsResults = newsSearchIndex.filter(item => 
         item.text.includes(query)
-    ).slice(0, 4);
+    ).slice(0, 6); // Show more results since this is the news page
     
     // Check if we have any results
-    if ((newsResults.length === 0 && planetResults.length === 0) || !autocompleteContainer) {
+    if (newsResults.length === 0 || !autocompleteContainer) {
         if (autocompleteContainer) {
             autocompleteContainer.style.display = 'none';
         }
@@ -193,75 +198,48 @@ function handleSearchInput(event) {
     // Display autocomplete results
     autocompleteContainer.style.display = 'block';
     
-    // Add planet results with category header if we have any
-    if (planetResults.length > 0) {
-        // Add category header
-        const planetHeader = document.createElement('div');
-        planetHeader.className = 'autocomplete-category';
-        planetHeader.textContent = 'Planets';
-        autocompleteContainer.appendChild(planetHeader);
-        
-        // Add planet items
-        planetResults.forEach(result => {
-            const item = document.createElement('div');
-            item.className = 'autocomplete-item planet-item';
-            
-            item.innerHTML = `
-                <div class="autocomplete-icon planet-icon">🪐</div>
-                <div class="autocomplete-content">
-                    <div class="autocomplete-title">${result.data.name}</div>
-                    <div class="autocomplete-subtitle">Planet</div>
-                </div>
-            `;
-            
-            item.addEventListener('click', () => {
-                openPlanetModal(result.data);
-                document.getElementById('search-input').value = '';
-                autocompleteContainer.style.display = 'none';
-            });
-            
-            autocompleteContainer.appendChild(item);
-        });
-    }
+    // Add news results with category header
+    const newsHeader = document.createElement('div');
+    newsHeader.className = 'autocomplete-category';
+    newsHeader.textContent = 'Space News';
+    autocompleteContainer.appendChild(newsHeader);
     
-    // Add news results with category header if we have any
-    if (newsResults.length > 0) {
-        // Add category header
-        const newsHeader = document.createElement('div');
-        newsHeader.className = 'autocomplete-category';
-        newsHeader.textContent = 'News';
-        autocompleteContainer.appendChild(newsHeader);
+    // Add news items
+    newsResults.forEach(result => {
+        const item = document.createElement('div');
+        item.className = 'autocomplete-item news-item';
         
-        // Add news items
-        newsResults.forEach(result => {
-            const item = document.createElement('div');
-            item.className = 'autocomplete-item news-item';
-            
-            item.innerHTML = `
-                <div class="autocomplete-icon news-icon">📰</div>
-                <div class="autocomplete-content">
-                    <div class="autocomplete-title">${result.data.title}</div>
-                    <div class="autocomplete-subtitle">${result.data.source} - ${formatDate(result.data.date)}</div>
-                </div>
-            `;
-            
-            item.addEventListener('click', () => {
+        // Format date nicely
+        const formattedDate = result.data.date ? new Date(result.data.date).toLocaleDateString() : '';
+        
+        item.innerHTML = `
+            <div class="autocomplete-icon news-icon">📰</div>
+            <div class="autocomplete-content">
+                <div class="autocomplete-title">${result.data.title}</div>
+                <div class="autocomplete-subtitle">${result.data.source} - ${formattedDate}</div>
+            </div>
+        `;
+        
+        item.addEventListener('click', () => {
+            if (result.data.url) {
                 window.open(result.data.url, '_blank');
-                document.getElementById('search-input').value = '';
-                autocompleteContainer.style.display = 'none';
-            });
-            
-            autocompleteContainer.appendChild(item);
+            } else {
+                console.log('No URL available for this news item');
+            }
+            document.getElementById('search-input').value = '';
+            autocompleteContainer.style.display = 'none';
         });
-    }
+        
+        autocompleteContainer.appendChild(item);
+    });
     
-    // Add "See all results" option if needed
-    if (newsResults.length > 3 || planetResults.length > 3) {
+    // Add "See all results" option
+    if (newsResults.length > 5) {
         const seeAllItem = document.createElement('div');
         seeAllItem.className = 'autocomplete-item see-all';
         seeAllItem.textContent = 'See all results';
         seeAllItem.addEventListener('click', () => {
-            performSearch(query);
+            showAllNewsResults(query);
             document.getElementById('search-input').value = '';
             autocompleteContainer.style.display = 'none';
         });
@@ -269,23 +247,10 @@ function handleSearchInput(event) {
     }
 }
 
-// Format date to a readable string
-function formatDate(date) {
-    return date.toLocaleDateString();
-}
-
-// Perform full search and display results
-function performSearch(query) {
-    query = query.toLowerCase().trim();
-    
-    if (query.length < 1) return;
-    
-    // Search in both indexes
-    const newsResults = searchIndex.news.filter(item => 
-        item.text.includes(query)
-    );
-    
-    const planetResults = searchIndex.planets.filter(item => 
+// Show all news search results in a modal
+function showAllNewsResults(query) {
+    // Search all results
+    const allResults = newsSearchIndex.filter(item => 
         item.text.includes(query)
     );
     
@@ -304,35 +269,26 @@ function performSearch(query) {
         <div class="modal-content search-results-content">
             <span class="close-modal" onclick="closeModal('search-results-modal')">&times;</span>
             <div class="modal-header">
-                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">Search Results</h2>
+                <h2 style="color: #fc3d21; font-family: 'Orbitron', sans-serif;">News Search Results</h2>
                 <div class="search-query">Query: "${query}"</div>
             </div>
             
             <div class="search-results-count">
-                Found ${newsResults.length + planetResults.length} results
+                Found ${allResults.length} news items
             </div>
             
             <div class="search-results-sections">
-                ${planetResults.length > 0 ? `
+                ${allResults.length > 0 ? `
                 <div class="search-section">
-                    <h3>Planets (${planetResults.length})</h3>
-                    <div class="search-planets-grid" id="search-planets-results"></div>
-                </div>
-                ` : ''}
-                
-                ${newsResults.length > 0 ? `
-                <div class="search-section">
-                    <h3>News (${newsResults.length})</h3>
+                    <h3>Space News</h3>
                     <div class="search-news-list" id="search-news-results"></div>
                 </div>
-                ` : ''}
-                
-                ${(newsResults.length === 0 && planetResults.length === 0) ? `
+                ` : `
                 <div class="no-results">
                     <p>No results found for "${query}".</p>
                     <p>Try different keywords or check your spelling.</p>
                 </div>
-                ` : ''}
+                `}
             </div>
         </div>
     `;
@@ -340,49 +296,37 @@ function performSearch(query) {
     // Display the modal
     openModal('search-results-modal');
     
-    // Populate planets results
-    const planetsResultsContainer = document.getElementById('search-planets-results');
-    if (planetsResultsContainer && planetResults.length > 0) {
-        planetResults.forEach(result => {
-            const planetCard = document.createElement('div');
-            planetCard.className = 'planet-result-card';
-            planetCard.innerHTML = `
-                <h4>${result.data.name}</h4>
-                <p>Mass: ${result.data.mass} Earth masses</p>
-                <p>Radius: ${result.data.radius} Earth radii</p>
-                <button class="more-info-btn">More Info</button>
-            `;
-            
-            planetCard.querySelector('button').addEventListener('click', () => {
-                openPlanetModal(result.data);
-            });
-            
-            planetsResultsContainer.appendChild(planetCard);
-        });
-    }
-    
     // Populate news results
     const newsResultsContainer = document.getElementById('search-news-results');
-    if (newsResultsContainer && newsResults.length > 0) {
-        newsResults.forEach(result => {
+    if (newsResultsContainer && allResults.length > 0) {
+        allResults.forEach(result => {
             const newsItem = document.createElement('div');
             newsItem.className = 'news-result-item';
+            
+            // Format date nicely
+            const formattedDate = result.data.date ? new Date(result.data.date).toLocaleDateString() : '';
+            
             newsItem.innerHTML = `
                 <div class="news-result-image">
                     <img src="${result.data.image}" alt="${result.data.title}" onerror="this.src='/api/placeholder/120/80'">
                 </div>
                 <div class="news-result-content">
                     <h4>${result.data.title}</h4>
-                    <p>${result.data.content.substring(0, 100)}${result.data.content.length > 100 ? '...' : ''}</p>
+                    <p>${result.data.content ? (result.data.content.substring(0, 100) + (result.data.content.length > 100 ? '...' : '')) : 'No description available'}</p>
                     <div class="news-result-meta">
                         <span>${result.data.source}</span>
-                        <span>${formatDate(result.data.date)}</span>
+                        <span>${formattedDate}</span>
                     </div>
                 </div>
             `;
             
             newsItem.addEventListener('click', () => {
-                window.open(result.data.url, '_blank');
+                if (result.data.url) {
+                    window.open(result.data.url, '_blank');
+                    closeModal('search-results-modal');
+                } else {
+                    console.log('No URL available for this news item');
+                }
             });
             
             newsResultsContainer.appendChild(newsItem);
@@ -390,67 +334,40 @@ function performSearch(query) {
     }
 }
 
-// Open planet modal
-function openPlanetModal(planet) {
-    // Create or get planet modal
-    let planetModal = document.getElementById('planetModal');
-    
-    if (!planetModal) {
-        planetModal = document.createElement('div');
-        planetModal.id = 'planetModal';
-        planetModal.className = 'modal';
-        
-        const modalContent = document.createElement('div');
-        modalContent.className = 'modal-content';
-        modalContent.id = 'modalContent';
-        
-        const closeButton = document.createElement('span');
-        closeButton.className = 'close-modal';
-        closeButton.innerHTML = '&times;';
-        closeButton.onclick = function() { closeModal('planetModal'); };
-        
-        modalContent.appendChild(closeButton);
-        planetModal.appendChild(modalContent);
-        document.body.appendChild(planetModal);
-    }
-    
-    // Format temperature
-    const temperatureCelsius = (planet.temperature - 273.15).toFixed(2);
-    
-    // Update modal content
-    const modalContent = document.getElementById('modalContent');
-    modalContent.innerHTML = `
-        <span class="close-modal" onclick="closeModal('planetModal')">&times;</span>
-        <h2>${planet.name}</h2>
-        <p><strong>Mass:</strong> ${planet.mass} Earth masses</p>
-        <p><strong>Radius:</strong> ${planet.radius} Earth radii</p>
-        <p><strong>Temperature:</strong> ${temperatureCelsius} °C</p>
-        <p><strong>Orbital Period:</strong> ${planet.period} Earth days</p>
-        <p><strong>Semi-Major Axis:</strong> ${planet.semi_major_axis} AU</p>
-        <p><strong>Distance from Earth (light-years):</strong> ${planet.distance_light_year} light-years</p>
-        <p><strong>Host Star Mass:</strong> ${planet.host_star_mass} Solar masses</p>
-        <p><strong>Host Star Temperature:</strong> ${planet.host_star_temperature} K</p>
-        <iframe src="https://eyes.nasa.gov/apps/solar-system/#/${planet.name.toLowerCase()}?embed=true&logo=false" allowfullscreen></iframe>
-    `;
-    
-    // Display the modal
-    openModal('planetModal');
-}
+// Make sure these functions are available globally
+window.handleNewsSearchInput = handleNewsSearchInput;
+window.showAllNewsResults = showAllNewsResults;
 
-// Event listener to close autocomplete when clicking outside
-document.addEventListener('click', function(event) {
-    const autocompleteContainer = document.getElementById('search-autocomplete');
-    const searchInput = document.getElementById('search-input');
-    
-    if (autocompleteContainer && searchInput) {
-        if (!autocompleteContainer.contains(event.target) && event.target !== searchInput) {
-            autocompleteContainer.style.display = 'none';
+// Make sure the modal functions are defined
+if (typeof openModal !== 'function') {
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
         }
     }
-});
+    window.openModal = openModal;
+}
 
-// Expose functions to global scope
-window.performSearch = performSearch;
-window.openPlanetModal = openPlanetModal;
+if (typeof closeModal !== 'function') {
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+        }
+    }
+    window.closeModal = closeModal;
+}
 
-// Important: Do NOT redefine toggleSearch as it already exists in mainM.js
+// Redefine toggleSearch if it's not already defined
+if (typeof toggleSearch !== 'function') {
+    function toggleSearch() {
+        document.getElementById('search-container').classList.toggle('show');
+        if (document.getElementById('search-container').classList.contains('show')) {
+            document.getElementById('search-input').focus();
+        }
+    }
+    window.toggleSearch = toggleSearch;
+}
